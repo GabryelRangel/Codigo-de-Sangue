@@ -3,10 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://dwdu0xb4gsot2" path="res://Assets/tiny_ship4.png" id="1_h5jkt"]
 [ext_resource type="Script" uid="uid://dird5t3iygpoo" path="res://Scenes/player_teste.gd" id="1_mlrf6"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
-radius = 2.56164
+[sub_resource type="CircleShape2D" id="CircleShape2D_h5jkt"]
+radius = 2.5
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_mlrf6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -14,9 +16,10 @@ rotation = 1.5708
 texture = ExtResource("1_h5jkt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.96046e-08, -6.82121e-13)
 rotation = 1.5708
 scale = Vector2(2.73263, 3.78552)
-shape = SubResource("CircleShape2D_cvnsp")
+shape = SubResource("CircleShape2D_h5jkt")
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(12, 0)
