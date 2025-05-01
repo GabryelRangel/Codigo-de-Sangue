@@ -8,7 +8,7 @@ var bullet_path=preload("res://Scenes/bullet.tscn")
 
 func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
 	look_at(get_global_mouse_position())
-	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
+	input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	player_movement(input, delta)
 	move_and_slide()
 	if Input.is_action_just_pressed("left_click"):
