@@ -1,23 +1,29 @@
 extends CharacterBody2D
-@export var speed = 400
-
+@export var speed = 800
+const  acceleration = 1200.0
+const max_speed = 2000.0 
+const friction = 100.0
+var input = Vector2.ZERO
 var bullet_path=preload("res://Scenes/bullet.tscn")
 
-func get_input(): #Função que reconhece movimentação wasd ou seta
+func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
 	look_at(get_global_mouse_position())
-	var input_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = input_direction * speed #afeta velocidade da nave
-
-
-
-func _physics_process(_delta): #função que reconhece o clique esquerdo e chama a função atirar
-	look_at(get_global_mouse_position())
+	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
+	player_movement(input, delta)
+	move_and_slide()
 	if Input.is_action_just_pressed("left_click"):
 		fire()
-	
-	get_input()
-	move_and_slide()
+		look_at(get_global_mouse_position())
 
+func get_input(): #Função que reconhece movimentação wasd ou seta
+	input.x=int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	input.y=int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	return input.normalized()
+	
+func player_movement(input,delta):
+	if input: velocity = velocity.move_toward(input * speed , delta * acceleration)
+	else: velocity = velocity.move_toward(Vector2(0,0), delta * friction)
+		
 func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	var bullet=bullet_path.instantiate()
 	bullet.dir=rotation
