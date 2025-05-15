@@ -1,17 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=4 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="PackedScene" uid="uid://c3ustyugmfyds" path="res://Scenes/testeobjeto.tscn" id="1_qxrlw"]
+[ext_resource type="Texture2D" uid="uid://bqvm2x0a324he" path="res://Assets/Space Background (3).png" id="1_wrm1d"]
 
 [node name="Game" type="Node2D"]
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1152, 1152)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("1_wrm1d")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("1_ebmjs")]
+position = Vector2(141, 325)
+rotation = 1.5708
+scale = Vector2(3, 3)
+
 [node name="Area2D" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(600, 503)
-rotation = 3.14159
+position = Vector2(187, 543)
+rotation = -3.31722
+scale = Vector2(1, 1)
 collision_layer = 3
 collision_mask = 3
 
-[node name="Player" parent="." instance=ExtResource("1_ebmjs")]
-position = Vector2(600, 325)
-rotation = 1.5708
-scale = Vector2(3, 3)
+[node name="Area2D2" parent="." instance=ExtResource("1_qxrlw")]
+position = Vector2(-55, 184)
+rotation = -0.937061
+scale = Vector2(1, 1)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Area2D3" parent="." instance=ExtResource("1_qxrlw")]
+position = Vector2(-109, 497)
+rotation = -2.06941
+scale = Vector2(1, 1)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Area2D4" parent="." instance=ExtResource("1_qxrlw")]
+position = Vector2(379, 296)
+rotation = 1.39632
+scale = Vector2(1, 1)
+collision_layer = 3
+collision_mask = 3
