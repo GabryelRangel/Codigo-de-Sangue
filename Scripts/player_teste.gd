@@ -20,8 +20,8 @@ func get_input(): #Função que reconhece movimentação wasd ou seta
 	input.y=int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return input.normalized()
 	
-func player_movement(input,delta):
-	if input: velocity = velocity.move_toward(input * speed , delta * acceleration)
+func player_movement(direction,delta):
+	if direction: velocity = velocity.move_toward(input * speed , delta * acceleration)
 	else: velocity = velocity.move_toward(Vector2(0,0), delta * friction)
 		
 func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar

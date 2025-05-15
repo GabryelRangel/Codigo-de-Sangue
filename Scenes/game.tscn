@@ -6,10 +6,12 @@
 [node name="Game" type="Node2D"]
 
 [node name="Area2D" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(636, 482)
+position = Vector2(600, 503)
+rotation = 3.14159
 collision_layer = 3
 collision_mask = 3
 
 [node name="Player" parent="." instance=ExtResource("1_ebmjs")]
-position = Vector2(577, 325)
+position = Vector2(600, 325)
+rotation = 1.5708
 scale = Vector2(3, 3)

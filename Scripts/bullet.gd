@@ -16,6 +16,6 @@ func _on_life_timeout():
 	print("morreu")
 	queue_free()
 
-func _on_area_2d_body_entered(body):
+func _on_area_2d_body_entered(_body):
 	print("hit")
 	queue_free()
