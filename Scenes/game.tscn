@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=5 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="PackedScene" uid="uid://c3ustyugmfyds" path="res://Scenes/testeobjeto.tscn" id="1_qxrlw"]
 [ext_resource type="Texture2D" uid="uid://bqvm2x0a324he" path="res://Assets/Space Background (3).png" id="1_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://pdfoxto6e3io" path="res://Scenes/inimigo_1.tscn" id="4_3dryh"]
 
 [node name="Game" type="Node2D"]
 
@@ -24,27 +25,17 @@ scale = Vector2(3, 3)
 [node name="Area2D" parent="." instance=ExtResource("1_qxrlw")]
 position = Vector2(187, 543)
 rotation = -3.31722
-scale = Vector2(1, 1)
 collision_layer = 3
 collision_mask = 3
 
-[node name="Area2D2" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(-55, 184)
-rotation = -0.937061
-scale = Vector2(1, 1)
-collision_layer = 3
-collision_mask = 3
+[node name="Inimigo1" parent="." instance=ExtResource("4_3dryh")]
+position = Vector2(515, 135)
+rotation = 3.14159
 
-[node name="Area2D3" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(-109, 497)
-rotation = -2.06941
-scale = Vector2(1, 1)
-collision_layer = 3
-collision_mask = 3
+[node name="Inimigo2" parent="." instance=ExtResource("4_3dryh")]
+position = Vector2(-173, 269)
+scale = Vector2(3.6615, 3.6615)
 
-[node name="Area2D4" parent="." instance=ExtResource("1_qxrlw")]
-position = Vector2(379, 296)
-rotation = 1.39632
-scale = Vector2(1, 1)
-collision_layer = 3
-collision_mask = 3
+[node name="Inimigo3" parent="." instance=ExtResource("4_3dryh")]
+position = Vector2(127, 109)
+scale = Vector2(3.6615, 3.6615)
