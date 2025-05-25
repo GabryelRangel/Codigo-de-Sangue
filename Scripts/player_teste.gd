@@ -29,5 +29,7 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	bullet.dir=rotation
 	bullet.pos=$Node2D.global_position
 	bullet.rota=global_rotation
+	bullet.is_enemy_bullet = false  # ← Aqui marca que é do player (opcional se já for false por padrão)
+	bullet.configurar_colisao(3, 2)  # layer 3 (balas do player), mask 1 (inimigos)add_child(bala)
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play() #chama o aúdio pro tiro. remover caso se tornar problemático

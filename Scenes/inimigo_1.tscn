@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://pdfoxto6e3io"]
+
+[ext_resource type="Script" uid="uid://bm8umibt7ff3y" path="res://Scenes/inimigo_1.gd" id="1_4fmjp"]
+[ext_resource type="Texture2D" uid="uid://ds2mra6ohjp2i" path="res://Assets/tiny_ship16.png" id="1_cu0y5"]
+[ext_resource type="PackedScene" uid="uid://c0wel8ei7f15c" path="res://Scenes/bullet.tscn" id="2_rv34c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmjp"]
+size = Vector2(28, 24)
+
+[node name="Inimigo1" type="Node2D"]
+light_mask = 2
+visibility_layer = 5
+scale = Vector2(1.9135, 1.9135)
+script = ExtResource("1_4fmjp")
+bullet_scene = ExtResource("2_rv34c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+texture = ExtResource("1_cu0y5")
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.81758, 1.18195)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4fmjp")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.731
+autostart = true
+
+[node name="Spawn_bala" type="Node2D" parent="."]
+position = Vector2(12, 0)
+scale = Vector2(-29.2989, -27.985)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
