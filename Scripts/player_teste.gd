@@ -4,6 +4,7 @@ const  acceleration = 1200.0
 const max_speed = 2000.0 
 const friction = 100.0
 var input = Vector2.ZERO
+var currentHealth: int = 3 #vida
 var bullet_path=preload("res://Scenes/bullet.tscn")
 
 func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
@@ -33,3 +34,19 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	bullet.configurar_colisao(3, 2)  # layer 3 (balas do player), mask 1 (inimigos)add_child(bala)
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play() #chama o aúdio pro tiro. remover caso se tornar problemático
+	
+func _ready():
+	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
+
+func _on_Hurtbox_area_entered(area):
+	if area.is_in_group("enemy_bullet"):  # use grupo ou alguma outra verificação
+		currentHealth -= 1
+		area.queue_free()  # destrói a bala após o dano
+		print("Levou dano! Vida atual:", currentHealth)
+		if currentHealth <= 0:
+			die()
+
+func die():
+	print("Jogador morreu")
+	queue_free()  # remove o player da cena
+	# Aqui você pode adicionar explosão, mudar de cena, etc.
