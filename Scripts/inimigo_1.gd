@@ -38,6 +38,7 @@ func shoot():
 		bullet.dir = direction.angle()
 		bullet.is_enemy_bullet = true
 		bullet.configurar_colisao(4, 1)  # Bala inimiga: está na camada 4, colide com camada 1 (player)
+		bullet.configurar_cor(Color(1, 1, 1))  # branco
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):

@@ -9,8 +9,8 @@ func configurar_colisao(layer: int, mask: int):
 	collision_mask = mask
 
 func _ready():
-	$Timer.start()  # ou configurar para autostart na cena
-	add_to_group("enemy_bullet")  # Marca como bala inimiga
+	$Timer.start()
+	add_to_group("enemy_bullet")
 	target = get_tree().get_current_scene().get_node("Player")
 
 func _process(delta):

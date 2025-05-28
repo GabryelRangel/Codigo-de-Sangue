@@ -1,14 +1,12 @@
 extends Area2D
 
 @export var speed: float = 800.0
-var dir: float = 0.0  # Direção em radianos
+var dir: float
 var is_enemy_bullet: bool = false
 
 func _ready():
 	rotation = dir
 	add_to_group("enemy_bullet" if is_enemy_bullet else "player_bullet")
-	
-	# Inicia o timer de autodestruição
 	if has_node("Timer"):
 		$Timer.start()
 	connect("area_entered", Callable(self, "_on_area_entered"))
@@ -34,6 +32,8 @@ func _on_area_entered(area: Area2D):
 			parent.take_damage(1)
 		queue_free()
 
+func configurar_cor(cor: Color):
+	$projectile.modulate = cor
 
 func configurar_colisao(layer: int, mask: int):
 	collision_layer = layer

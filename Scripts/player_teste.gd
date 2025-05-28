@@ -6,8 +6,8 @@ const friction = 100.0
 var input = Vector2.ZERO
 var currentHealth: int = 0 #vida
 
-@export var dash_speed: float = 1000.0 #velocidade do dash
-@export var dash_duration: float = 0.2 #duração do dash
+@export var dash_speed: float = 1000.0 
+@export var dash_duration: float = 0.2 
 @export var dash_cooldown: float = 2.0 #tempo de carregamento do dash
 var dash_timer := 0.0
 var is_dashing := false
@@ -60,7 +60,7 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	var bullet=bullet_path.instantiate()
 	bullet.dir=rotation
 	bullet.global_position=$Node2D.global_position
-	bullet.is_enemy_bullet = false  # ← Aqui marca que é do player (opcional se já for false por padrão)
+	bullet.is_enemy_bullet = false
 	bullet.configurar_colisao(3, 2)  # Bala do player: está na camada 3, colide com camada 2 (inimigos)
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()
@@ -84,4 +84,3 @@ func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
 	hud.get_node("GameOver").show_game_over()
 	queue_free()  # remove o player da cena
-	# Aqui você pode adicionar explosão, mudar de cena, etc.
