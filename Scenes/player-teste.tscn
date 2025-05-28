@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmnwa5qvdh4iu"]
+[gd_scene load_steps=6 format=3 uid="uid://cmnwa5qvdh4iu"]
 
 [ext_resource type="Texture2D" uid="uid://dwdu0xb4gsot2" path="res://Assets/tiny_ship4.png" id="1_h5jkt"]
 [ext_resource type="Script" uid="uid://dird5t3iygpoo" path="res://Scripts/player_teste.gd" id="1_mlrf6"]
 [ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://audio/effects/teste.mp3" id="3_mlrf6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5jkt"]
-radius = 2.5
+radius = 3.65948
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mlrf6"]
+size = Vector2(20, 27)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
@@ -31,7 +34,10 @@ stream = ExtResource("3_mlrf6")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Hurtbox" type="Area2D" parent="."]
-visible = false
+collision_mask = 13
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-visible = false
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_mlrf6")
+
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

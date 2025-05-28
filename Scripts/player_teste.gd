@@ -38,13 +38,17 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 func _ready():
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
 
-func _on_Hurtbox_area_entered(area):
-	if area.is_in_group("enemy_bullet"):  # use grupo ou alguma outra verificação
+func _on_Hurtbox_area_entered(body):
+	print("Entrou:", body, " Grupos:", body.get_groups())
+	print("HURTBOX")
+	var bullet_owner = body.get_parent()
+	if bullet_owner.is_in_group("enemy_bullet"):
 		currentHealth -= 1
-		area.queue_free()  # destrói a bala após o dano
+		bullet_owner.queue_free()
 		print("Levou dano! Vida atual:", currentHealth)
 		if currentHealth <= 0:
 			die()
+
 
 func die():
 	print("Jogador morreu")

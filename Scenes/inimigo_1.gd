@@ -16,40 +16,35 @@ func _ready():
 	player = game_root.get_node("Player")
 	$Timer.wait_time = fire_interval
 	$Timer.start()
-	# Remover esta linha se estiver conectado no editor:
-	# $Timer.connect("timeout", Callable(self, "shoot"))
 
 func _process(delta):
-	if player:
+	if is_instance_valid(player):
 		var direction = (player.global_position - global_position).normalized()
 		look_at(player.global_position)
 		speed = min(speed + accell * delta, max_speed)
 		global_position += direction * speed * delta
 
-
 func _on_timer_timeout():
 	shoot()
 
 func shoot():
-	if bullet_scene:
+	if bullet_scene and is_instance_valid(player):
 		var bullet = bullet_scene.instantiate()
 		bullet.pos = $Spawn_bala.global_position
-		# Direção da bala (vetor unitário para o player)
 		var direction = (player.global_position - global_position).normalized()
 		bullet.dir = direction.angle()
-		bullet.rota = direction.angle() # Se quiser girar o sprite para o player
-		bullet.is_enemy_bullet = true  # ← Aqui você marca que é do inimigo
-		bullet.configurar_colisao(4, 1)  # layer 3 (balas do player), mask 1 (inimigos)add_child(bala)
+		bullet.rota = direction.angle()
+		bullet.is_enemy_bullet = true
+		bullet.configurar_colisao(4, 1)
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):
-		current_health -= amount
-		if current_health <= 0:
-			die()
+	current_health -= amount
+	if current_health <= 0:
+		die()
 
 func die():
 	queue_free()
-
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("is_player_bullet") and body.is_player_bullet():

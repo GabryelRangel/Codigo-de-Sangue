@@ -13,6 +13,9 @@ func is_player_bullet():
 func _ready():
 	global_position = pos
 	rotation = rota
+	if is_enemy_bullet:
+		add_to_group("enemy_bullet")
+
 
 func _physics_process(_delta):
 	velocity = Vector2(speed, 0).rotated(dir)
