@@ -12,9 +12,6 @@ var player: Node2D = null
 
 func _ready():
 	current_health = max_health
-	$Timer.wait_time = fire_interval
-	$Timer.start()
-	$Area2D.connect("area_entered", Callable(self, "_on_area_2d_area_entered"))
 	call_deferred("_wait_for_player")
 
 func _wait_for_player():
@@ -36,12 +33,11 @@ func _on_timer_timeout():
 func shoot():
 	if bullet_scene and is_instance_valid(player):
 		var bullet = bullet_scene.instantiate()
-		bullet.pos = $Spawn_bala.global_position
+		bullet.global_position = $Spawn_bala.global_position
 		var direction = (player.global_position - global_position).normalized()
 		bullet.dir = direction.angle()
-		bullet.rota = direction.angle()
 		bullet.is_enemy_bullet = true
-		bullet.configurar_colisao(4, 1)
+		bullet.configurar_colisao(4, 1)  # Bala inimiga: está na camada 4, colide com camada 1 (player)
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):

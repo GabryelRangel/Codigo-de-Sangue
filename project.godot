@@ -29,6 +29,11 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Código de Sangue"
 
+[global_group]
+
+player=""
+enemy=""
+
 [input]
 
 ui_left={

@@ -1,19 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://caartsjmkx6sa"]
+[gd_scene load_steps=5 format=3 uid="uid://caartsjmkx6sa"]
 
 [ext_resource type="Script" uid="uid://cqj71wb117glc" path="res://Scripts/inimigo_2.gd" id="1_t3t4i"]
 [ext_resource type="Texture2D" uid="uid://c0au1888ce6mi" path="res://Assets/tiny_ship3.png" id="2_44jpd"]
+[ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="3_44jpd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kl66u"]
 size = Vector2(26, 22.5)
 
-[node name="inimigo_2" type="Node2D"]
+[node name="inimigo_2" type="Node2D" groups=["enemy"]]
 script = ExtResource("1_t3t4i")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
 texture = ExtResource("2_44jpd")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 0.25)
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_kl66u")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.731
+autostart = true
+
+[node name="Spawn_bala" type="Node2D" parent="."]
+position = Vector2(13, 0)
+scale = Vector2(-29.2989, -27.985)
+
+[node name="State Machine" type="Node" parent="."]
+script = ExtResource("3_44jpd")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

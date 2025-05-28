@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var speed: float = 200.0
-@export var bullet_scene: PackedScene
+@export var bala_curva_scene: PackedScene
 @export var fire_interval: float = 1.5
 @export var max_health: int = 3
 @export var accell: float = 100
@@ -21,26 +21,27 @@ func _ready():
 @export var follow_distance: float = 300.0
 
 func _process(delta):
-	if is_instance_valid(player):
-		var to_player = player.global_position - global_position
-		var distance = to_player.length()
-		if distance > follow_distance:
-			var direction = to_player.normalized()
-			global_position += direction * speed * delta
-		look_at(player.global_position)
+	if not is_instance_valid(player):
+		return
+
+	var to_player = player.global_position - global_position
+	var distance = to_player.length()
+	look_at(player.global_position)
+
+	if distance > follow_distance:
+		var direction = to_player.normalized()
+		global_position += direction * speed * delta
+
 
 func _on_timer_timeout():
 	shoot()
 
 func shoot():
-	if bullet_scene and is_instance_valid(player):
-		var bullet = bullet_scene.instantiate()
-		bullet.pos = $Spawn_bala.global_position
-		var direction = (player.global_position - global_position).normalized()
-		bullet.dir = direction.angle()
-		bullet.rota = direction.angle()
-		bullet.is_enemy_bullet = true
+	if bala_curva_scene and is_instance_valid(player):
+		var bullet = bala_curva_scene.instantiate()
 		bullet.configurar_colisao(4, 1)
+		bullet.global_position = $Spawn_bala.global_position
+		bullet.rotation = (player.global_position - bullet.global_position).angle()
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):
