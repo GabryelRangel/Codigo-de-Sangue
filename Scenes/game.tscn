@@ -1,41 +1,117 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=12 format=3 uid="uid://dgfcd0sal75i5"]
 
+[ext_resource type="Texture2D" uid="uid://bryi0x6kl0b6v" path="res://Assets/Fundo/Space Background (9).png" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="PackedScene" uid="uid://c3ustyugmfyds" path="res://Scenes/testeobjeto.tscn" id="1_qxrlw"]
-[ext_resource type="Texture2D" uid="uid://bqvm2x0a324he" path="res://Assets/Space Background (3).png" id="1_wrm1d"]
+[ext_resource type="Texture2D" uid="uid://bq1qf3m7pxy5o" path="res://Assets/Fundo/Space Background (15).png" id="1_wowpa"]
+[ext_resource type="Texture2D" uid="uid://c56cga3s5yevj" path="res://Assets/Fundo/Space Background (16).png" id="2_h4fw4"]
+[ext_resource type="Texture2D" uid="uid://c1er1whv72bqx" path="res://Assets/Fundo/Space Background (18).png" id="2_ldgsr"]
 [ext_resource type="PackedScene" uid="uid://pdfoxto6e3io" path="res://Scenes/inimigo_1.tscn" id="4_3dryh"]
+[ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Fundo/Space Background (14).png" id="5_h4fw4"]
+[ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://cpnc1xif6eraj" path="res://Assets/Fundo/Space Background (11).png" id="6_h4fw4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgsr"]
+size = Vector2(106.5, 5401)
 
 [node name="Game" type="Node2D"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_ignore_camera_zoom = true
 
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+texture = ExtResource("1_wowpa")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(900, 900)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+texture = ExtResource("2_ldgsr")
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer5"]
+texture = ExtResource("5_h4fw4")
+centered = false
+
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_mirroring = Vector2(1152, 1152)
+visible = false
+motion_mirroring = Vector2(900, 900)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("1_wrm1d")
+texture = ExtResource("1_3dryh")
 centered = false
+
+[node name="ParallaxLayer7" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer7"]
+texture = ExtResource("5_ldgsr")
+centered = false
+
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer6"]
+texture = ExtResource("6_h4fw4")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(2, 1.996)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+texture = ExtResource("2_h4fw4")
 
 [node name="Player" parent="." instance=ExtResource("1_ebmjs")]
 position = Vector2(141, 325)
 rotation = 1.5708
-scale = Vector2(3, 3)
+collision_mask = 1
 
 [node name="Area2D" parent="." instance=ExtResource("1_qxrlw")]
 position = Vector2(187, 543)
-rotation = -3.31722
+rotation = 2.96597
 collision_layer = 3
 collision_mask = 3
 
 [node name="Inimigo1" parent="." instance=ExtResource("4_3dryh")]
 position = Vector2(515, 135)
 rotation = 3.14159
+scale = Vector2(1, 1)
 
 [node name="Inimigo2" parent="." instance=ExtResource("4_3dryh")]
 position = Vector2(-173, 269)
-scale = Vector2(3.6615, 3.6615)
+scale = Vector2(1, 1)
 
 [node name="Inimigo3" parent="." instance=ExtResource("4_3dryh")]
 position = Vector2(127, 109)
-scale = Vector2(3.6615, 3.6615)
+scale = Vector2(1.00169, 1.01683)
+
+[node name="Arena" type="StaticBody2D" parent="."]
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
+position = Vector2(-2753.25, 0)
+shape = SubResource("RectangleShape2D_ldgsr")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
+position = Vector2(2753, 0)
+shape = SubResource("RectangleShape2D_ldgsr")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Arena"]
+position = Vector2(-0.500002, 2747.75)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_ldgsr")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Arena"]
+position = Vector2(0, -2748)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_ldgsr")

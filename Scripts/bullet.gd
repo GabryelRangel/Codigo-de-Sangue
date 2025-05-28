@@ -15,15 +15,20 @@ func _ready():
 	rotation = rota
 	if is_enemy_bullet:
 		add_to_group("enemy_bullet")
+		$Area2D.add_to_group("enemy_bullet")
+	else:
+		add_to_group("player_bullet")
+		$Area2D.add_to_group("player_bullet")
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	velocity = Vector2(speed, 0).rotated(dir)
-	move_and_slide()
+	var motion = Vector2(speed * delta, 0).rotated(dir)
+	var collision = move_and_collide(motion)
+	if collision:
+		queue_free()  # ou causar dano, etc.
 
 func configurar_colisao(layer: int, mask: int):
-	collision_layer = layer
-	collision_mask = mask
 	$Area2D.collision_layer = layer
 	$Area2D.collision_mask = mask
 
