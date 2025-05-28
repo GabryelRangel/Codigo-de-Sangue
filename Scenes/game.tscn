@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=17 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="Texture2D" uid="uid://bryi0x6kl0b6v" path="res://Assets/Fundo/Space Background (9).png" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://ddc3y8gmcgrgw" path="res://Assets/background.png" id="12_nb51f"]
 [ext_resource type="Texture2D" uid="uid://cejsrp1kbp2e6" path="res://Assets/heart.png" id="13_nnt18"]
 [ext_resource type="Texture2D" uid="uid://wy52ynvjhn2" path="res://Assets/border.png" id="14_ewbju"]
+[ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scenes/game_over.gd" id="15_nb51f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgsr"]
 size = Vector2(106.5, 5401)
@@ -228,3 +229,53 @@ offset_right = 56.0
 offset_bottom = 31.0
 texture = ExtResource("14_ewbju")
 stretch_mode = 5
+
+[node name="GameOver" type="Control" parent="hud"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_nb51f")
+
+[node name="ColorRect" type="ColorRect" parent="hud/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -244.0
+offset_top = -135.0
+offset_right = 256.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.647059, 0, 0, 1)
+
+[node name="Label" type="Label" parent="hud/GameOver"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = 12.0
+offset_right = 21.0
+offset_bottom = 35.0
+grow_horizontal = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="hud/GameOver"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = 12.0
+offset_right = 21.0
+offset_bottom = 35.0
+grow_horizontal = 2

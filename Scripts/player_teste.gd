@@ -5,6 +5,15 @@ const max_speed = 2000.0
 const friction = 100.0
 var input = Vector2.ZERO
 var currentHealth: int = 3 #vida
+
+@export var dash_speed: float = 1000.0 #velocidade do dash
+@export var dash_duration: float = 0.2 #duração do dash
+@export var dash_cooldown: float = 2.0 #tempo de carregamento do dash
+var dash_timer := 0.0
+var is_dashing := false
+var dash_direction := Vector2.ZERO
+var dash_cooldown_timer := 0.0
+
 var bullet_path=preload("res://Scenes/bullet.tscn")
 
 func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
@@ -12,6 +21,24 @@ func _physics_process(delta): #função que reconhece o clique esquerdo e chama 
 	input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	player_movement(input, delta)
 	move_and_slide()
+	
+	# Cooldown do dash
+	if dash_cooldown_timer > 0:
+		dash_cooldown_timer -= delta
+
+# Dash ativo
+	if is_dashing:
+		dash_timer -= delta
+		if dash_timer <= 0:
+			is_dashing = false
+	else:
+# Iniciar dash se clique direito e cooldown pronto
+		if Input.is_action_just_pressed("right_click") and dash_cooldown_timer <= 0:
+			is_dashing = true
+			dash_timer = dash_duration
+			dash_cooldown_timer = dash_cooldown
+			dash_direction = Vector2.RIGHT.rotated(rotation)
+
 	if Input.is_action_just_pressed("left_click"):
 		fire()
 		look_at(get_global_mouse_position())
@@ -21,31 +48,32 @@ func get_input(): #Função que reconhece movimentação wasd ou seta
 	input.y=int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return input.normalized()
 	
-func player_movement(direction,delta):
-	if direction: velocity = velocity.move_toward(input * speed , delta * acceleration)
-	else: velocity = velocity.move_toward(Vector2(0,0), delta * friction)
-		
+func player_movement(direction, delta):
+	if is_dashing:
+		velocity = dash_direction * dash_speed
+	elif direction:
+		velocity = velocity.move_toward(input * speed, delta * acceleration)
+	else:
+		velocity = velocity.move_toward(Vector2(0,0), delta * friction)
+
 func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	var bullet=bullet_path.instantiate()
 	bullet.dir=rotation
 	bullet.pos=$Node2D.global_position
 	bullet.rota=global_rotation
 	bullet.is_enemy_bullet = false  # ← Aqui marca que é do player (opcional se já for false por padrão)
-	bullet.configurar_colisao(3, 2)  # layer 3 (balas do player), mask 1 (inimigos)add_child(bala)
+	bullet.configurar_colisao(3, 2)  # layer 3 (balas do player), mask 2 (inimigos)add_child(bala)
 	get_parent().add_child(bullet)
-	$AudioStreamPlayer2D.play() #chama o aúdio pro tiro. remover caso se tornar problemático
+	$AudioStreamPlayer2D.play()
 	
 func _ready():
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
 
-func _on_Hurtbox_area_entered(body):
-	print("Entrou:", body, " Grupos:", body.get_groups())
-	print("HURTBOX")
+func _on_Hurtbox_area_entered(body): 
 	var bullet_owner = body.get_parent()
 	if bullet_owner.is_in_group("enemy_bullet"):
 		currentHealth -= 1
 		bullet_owner.queue_free()
-		print("Levou dano! Vida atual:", currentHealth)
 		var hud = get_tree().get_current_scene().get_node("hud")
 		hud.update_hearts(currentHealth)
 		if currentHealth <= 0:
@@ -53,6 +81,7 @@ func _on_Hurtbox_area_entered(body):
 
 
 func die():
-	print("Jogador morreu")
+	var hud = get_tree().get_current_scene().get_node("hud")
+	hud.get_node("GameOver").show_game_over()
 	queue_free()  # remove o player da cena
 	# Aqui você pode adicionar explosão, mudar de cena, etc.
