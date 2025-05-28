@@ -46,6 +46,8 @@ func _on_Hurtbox_area_entered(body):
 		currentHealth -= 1
 		bullet_owner.queue_free()
 		print("Levou dano! Vida atual:", currentHealth)
+		var hud = get_tree().get_current_scene().get_node("hud")
+		hud.update_hearts(currentHealth)
 		if currentHealth <= 0:
 			die()
 
