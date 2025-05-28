@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://pdfoxto6e3io"]
+[gd_scene load_steps=6 format=3 uid="uid://pdfoxto6e3io"]
 
-[ext_resource type="Script" uid="uid://bm8umibt7ff3y" path="res://Scenes/inimigo_1.gd" id="1_4fmjp"]
+[ext_resource type="Script" uid="uid://bm8umibt7ff3y" path="res://Scripts/inimigo_1.gd" id="1_4fmjp"]
 [ext_resource type="Texture2D" uid="uid://ds2mra6ohjp2i" path="res://Assets/tiny_ship16.png" id="1_cu0y5"]
 [ext_resource type="PackedScene" uid="uid://c0wel8ei7f15c" path="res://Scenes/bullet.tscn" id="2_rv34c"]
+[ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="4_kmkia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmjp"]
 size = Vector2(28, 24)
@@ -35,6 +36,9 @@ autostart = true
 [node name="Spawn_bala" type="Node2D" parent="."]
 position = Vector2(12, 0)
 scale = Vector2(-29.2989, -27.985)
+
+[node name="State Machine" type="Node" parent="."]
+script = ExtResource("4_kmkia")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

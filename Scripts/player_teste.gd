@@ -68,6 +68,7 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	
 func _ready():
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
+	Global.player = self
 
 func _on_Hurtbox_area_entered(body): 
 	var bullet_owner = body.get_parent()

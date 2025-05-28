@@ -12,12 +12,17 @@ var player: Node2D = null
 
 func _ready():
 	current_health = max_health
-	var game_root = get_tree().get_current_scene()
-	player = game_root.get_node("Player")
 	$Timer.wait_time = fire_interval
 	$Timer.start()
 	$Area2D.connect("area_entered", Callable(self, "_on_area_2d_area_entered"))
-	
+	call_deferred("_wait_for_player")
+
+func _wait_for_player():
+	await get_tree().process_frame  # Espera 1 frame
+	while Global.player == null:
+		await get_tree().process_frame
+	player = Global.player
+
 func _process(delta):
 	if is_instance_valid(player):
 		var direction = (player.global_position - global_position).normalized()

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed: float = 1500
+@export var speed: float = 1000
 @export var is_enemy_bullet: bool = false
 
 var dir: float
