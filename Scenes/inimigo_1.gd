@@ -16,7 +16,8 @@ func _ready():
 	player = game_root.get_node("Player")
 	$Timer.wait_time = fire_interval
 	$Timer.start()
-
+	$Area2D.connect("area_entered", Callable(self, "_on_area_2d_area_entered"))
+	
 func _process(delta):
 	if is_instance_valid(player):
 		var direction = (player.global_position - global_position).normalized()
@@ -50,3 +51,12 @@ func _on_Area2D_body_entered(body):
 	if body.has_method("is_player_bullet") and body.is_player_bullet():
 		take_damage(1)
 		body.queue_free()
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	var bullet_node = area.get_parent()
+	print("Algo entrou:", area.name, " Grupos do pai:", bullet_node.get_groups())
+	if bullet_node.is_in_group("player_bullet"):
+		print("Bala do player detectada!")
+		take_damage(1)
+		bullet_node.queue_free()
