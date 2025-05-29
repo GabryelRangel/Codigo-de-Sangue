@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var speed: float = 200.0
+@export var speed: float = 300.0
 @export var bala_curva_scene: PackedScene
 @export var fire_interval: float = 1.5
 @export var max_health: int = 3

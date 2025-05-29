@@ -4,23 +4,24 @@
 [ext_resource type="Texture2D" uid="uid://c0au1888ce6mi" path="res://Assets/tiny_ship3.png" id="2_44jpd"]
 [ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="3_44jpd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kl66u"]
-size = Vector2(26, 22.5)
+[sub_resource type="CircleShape2D" id="CircleShape2D_44jpd"]
+radius = 37.0
 
 [node name="inimigo_2" type="Node2D" groups=["enemy"]]
 script = ExtResource("1_t3t4i")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_44jpd")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 2
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_kl66u")
+position = Vector2(-3, 2)
+shape = SubResource("CircleShape2D_44jpd")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.731

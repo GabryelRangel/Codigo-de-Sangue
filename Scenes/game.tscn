@@ -49,7 +49,6 @@ texture = ExtResource("2_ldgsr")
 centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-visible = false
 motion_mirroring = Vector2(900, 900)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
@@ -64,7 +63,6 @@ texture = ExtResource("5_ldgsr")
 centered = false
 
 [node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackground"]
-visible = false
 motion_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer6"]
@@ -87,14 +85,18 @@ position = Vector2(515, 135)
 rotation = 3.14159
 scale = Vector2(1, 1)
 
-[node name="Inimigo3" parent="." instance=ExtResource("16_nnt18")]
+[node name="Inimigo2" parent="." instance=ExtResource("16_nnt18")]
 position = Vector2(348, 63)
 rotation = -4.31096
-scale = Vector2(1.1, 1.1)
+scale = Vector2(0.7, 0.7)
 bala_curva_scene = ExtResource("17_ewbju")
 
+[node name="Inimigo3" parent="." instance=ExtResource("18_85qyi")]
+position = Vector2(508, 335)
+rotation = -1.28805
+scale = Vector2(0.5, 0.5)
+
 [node name="Arena" type="StaticBody2D" parent="."]
-visible = false
 collision_layer = 255
 collision_mask = 255
 
@@ -120,25 +122,25 @@ shape = SubResource("RectangleShape2D_ldgsr")
 script = ExtResource("11_1phco")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="hud"]
-offset_left = 55.0
-offset_top = 14.0
-offset_right = 95.0
-offset_bottom = 54.0
+offset_left = -5.0
+offset_top = 2.0
+offset_right = 123.0
+offset_bottom = 51.0
 theme_override_constants/separation = 10
 
 [node name="Heart1" parent="hud/HBoxContainer" instance=ExtResource("14_nnt18")]
-position = Vector2(-1, -2)
+position = Vector2(100, 26)
+scale = Vector2(2, 2)
 
 [node name="Heart2" parent="hud/HBoxContainer" instance=ExtResource("14_nnt18")]
-position = Vector2(-23, -2)
+position = Vector2(60, 26)
+scale = Vector2(2, 2)
 
 [node name="Heart3" parent="hud/HBoxContainer" instance=ExtResource("14_nnt18")]
-position = Vector2(-45, -2)
-animation = &"transicao"
-frame_progress = 0.0
+position = Vector2(20, 26)
+scale = Vector2(2, 2)
 
 [node name="GameOver" type="Control" parent="hud"]
-visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -198,11 +200,6 @@ text = "GAME OVER"
 [node name="Spawner_Inimigo" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
-
-[node name="inimigo_3" parent="." instance=ExtResource("18_85qyi")]
-position = Vector2(508, 335)
-rotation = -1.28805
-scale = Vector2(0.5, 0.5)
 
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart1" to="hud" method="_on_heart_1_animation_finished"]
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart2" to="hud" method="_on_heart_2_animation_finished"]

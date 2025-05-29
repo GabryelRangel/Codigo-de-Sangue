@@ -1,8 +1,8 @@
 extends Node2D
 
-@export var speed: float = 300.0
+@export var speed: float = 400.0
 @export var damage: int = 1
-@export var max_health: int = 1
+@export var max_health: int = 3  # Alterado para 3 vidas
 
 var current_health: int
 var player: Node2D = null
@@ -22,24 +22,26 @@ func _process(delta):
 		look_at(player.global_position)
 		global_position += direction * speed * delta
 
-func _on_body_entered(body):
+func take_damage(amount: int):
+	current_health -= amount
+	print("Inimigo 3 tomou dano! Vida restante: ", current_health)
+	if current_health <= 0:
+		explode()
+		
+# Função para colisão com o jogador
+
+func explode():
+	print("Inimigo 3 explodiu!")
+	queue_free()
+
+func _on_area_2d_body_entered(body):
 	if body.is_in_group("player"):
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
+		current_health = 0  # Perde toda a vida ao colidir
 		explode()
-
-func explode():
-	# Adicione efeitos visuais ou som aqui, se quiser
-	queue_free()
-
-func take_damage(amount: int):
-	current_health -= amount
-	if current_health <= 0:
-		explode()
-
-func _on_area_2d_body_entered(body):
-	print("Colidiu com:", body.name)
-	if body.is_in_group("player"):
-		print("É o player, aplicando dano!")
-		body.take_damage(1)
-		queue_free()
+func _on_area_dano_area_entered(area: Area2D) -> void:
+	var bullet = area.get_parent()
+	if bullet.is_in_group("player_bullet"):
+		take_damage(1)
+		bullet.queue_free()
