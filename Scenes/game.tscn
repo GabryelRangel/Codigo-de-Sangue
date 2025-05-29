@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cpnc1xif6eraj" path="res://Assets/Fundo/Space Background (11).png" id="6_h4fw4"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="Texture2D" uid="uid://ddc3y8gmcgrgw" path="res://Assets/background.png" id="12_nb51f"]
-[ext_resource type="Texture2D" uid="uid://cejsrp1kbp2e6" path="res://Assets/heart.png" id="13_nnt18"]
+[ext_resource type="Texture2D" uid="uid://cejsrp1kbp2e6" path="res://Assets/Heart.png" id="13_nnt18"]
 [ext_resource type="Texture2D" uid="uid://wy52ynvjhn2" path="res://Assets/border.png" id="14_ewbju"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
 [ext_resource type="PackedScene" uid="uid://caartsjmkx6sa" path="res://Scenes/inimigo_2.tscn" id="16_nnt18"]

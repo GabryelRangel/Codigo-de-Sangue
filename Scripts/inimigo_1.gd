@@ -15,7 +15,8 @@ func _ready():
 	call_deferred("_wait_for_player")
 
 func _wait_for_player():
-	await get_tree().process_frame  # Espera 1 frame
+	while get_tree() == null:
+		await Engine.get_main_loop().idle_frame
 	while Global.player == null:
 		await get_tree().process_frame
 	player = Global.player
@@ -37,7 +38,7 @@ func shoot():
 		var direction = (player.global_position - global_position).normalized()
 		bullet.dir = direction.angle()
 		bullet.is_enemy_bullet = true
-		bullet.configurar_colisao(4, 1)  # Bala inimiga: está na camada 4, colide com camada 1 (player)
+		bullet.configurar_colisao(2, 1)  # Bala inimiga: está na camada 4, colide com camada 1 (player)
 		bullet.configurar_cor(Color(1, 1, 1))  # branco
 		get_tree().get_current_scene().add_child(bullet)
 
@@ -58,7 +59,7 @@ func _on_Area2D_body_entered(body):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	var bullet_node = area.get_parent()
 	print("Algo entrou:", area.name, " Grupos do pai:", bullet_node.get_groups())
-	if bullet_node.is_in_group("player_bullet"):
+	if bullet_node.is_in_group("player"):
 		print("Bala do player detectada!")
 		take_damage(1)
 		bullet_node.queue_free()

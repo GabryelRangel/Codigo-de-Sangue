@@ -15,6 +15,7 @@ func _process(delta):
 	var direction = Vector2.RIGHT.rotated(rotation)
 	position += direction * speed * delta
 
+
 func _on_area_entered(area: Area2D):
 	var parent = area.get_parent()
 	
@@ -38,6 +39,7 @@ func configurar_cor(cor: Color):
 func configurar_colisao(layer: int, mask: int):
 	collision_layer = layer
 	collision_mask = mask
+
 
 func _on_Timer_timeout():
 	queue_free()

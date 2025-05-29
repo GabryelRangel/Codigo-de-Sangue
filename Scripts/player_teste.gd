@@ -70,10 +70,10 @@ func _ready():
 	Global.player = self
 
 func _on_Hurtbox_area_entered(body): 
-	var bullet_owner = body.get_parent()
-	if bullet_owner.is_in_group("enemy_bullet"):
+	if body.is_in_group("enemy_bullet"):
+		print("Acertado por bala inimiga!")
 		currentHealth -= 1
-		bullet_owner.queue_free()
+		body.queue_free()
 		var hud = get_tree().get_current_scene().get_node("hud")
 		hud.update_hearts(currentHealth)
 		if currentHealth <= 0:
