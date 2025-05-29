@@ -35,9 +35,9 @@ limit_top = -2700
 limit_right = 2700
 limit_bottom = 2700
 
-[node name="Hurtbox" type="Area2D" parent="." groups=["player"]]
+[node name="Hurtbox" type="Area2D" parent="."]
 scale = Vector2(1.11021, 1.06818)
-collision_mask = 2
+collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hurtbox"]
 position = Vector2(0.444584, 0)

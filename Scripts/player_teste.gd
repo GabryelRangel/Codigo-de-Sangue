@@ -4,8 +4,7 @@ const  acceleration = 1200.0
 const max_speed = 2000.0 
 const friction = 100.0
 var input = Vector2.ZERO
-var currentHealth: int = 0 #vida
-
+var currentHealth: int = 3 #vida
 @export var dash_speed: float = 1000.0 
 @export var dash_duration: float = 0.2 
 @export var dash_cooldown: float = 2.0 #tempo de carregamento do dash
@@ -66,13 +65,13 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	$AudioStreamPlayer2D.play()
 	
 func _ready():
-	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
 	Global.player = self
+	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
 
 func _on_Hurtbox_area_entered(body): 
 	if body.is_in_group("enemy_bullet"):
 		print("Acertado por bala inimiga!")
-		currentHealth -= 1
+		take_damage(1)
 		body.queue_free()
 		var hud = get_tree().get_current_scene().get_node("hud")
 		hud.update_hearts(currentHealth)
@@ -84,3 +83,12 @@ func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
 	hud.get_node("GameOver").show_game_over()
 	queue_free()  # remove o player da cena
+
+func take_damage(amount: int):
+	currentHealth -= amount
+	print("Player tomou dano! Vida restante:", currentHealth)
+	
+	var hud = get_tree().get_current_scene().get_node("hud")
+	hud.update_hearts(currentHealth)
+	if currentHealth <= 0:
+		die()

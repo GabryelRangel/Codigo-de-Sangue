@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cejsrp1kbp2e6"
-path="res://.godot/imported/heart.png-fb184e3028b962627b1631c99ec24f8f.ctex"
+uid="uid://hi3rnvf5vh7c"
+path="res://.godot/imported/tiny_ship12.png-7d473375ee56ab9240c8989ecddb59d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/heart.png"
-dest_files=["res://.godot/imported/heart.png-fb184e3028b962627b1631c99ec24f8f.ctex"]
+source_file="res://Assets/tiny_ship12.png"
+dest_files=["res://.godot/imported/tiny_ship12.png-7d473375ee56ab9240c8989ecddb59d8.ctex"]
 
 [params]
 

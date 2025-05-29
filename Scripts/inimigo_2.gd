@@ -39,9 +39,9 @@ func _on_timer_timeout():
 func shoot():
 	if bala_curva_scene and is_instance_valid(player):
 		var bullet = bala_curva_scene.instantiate()
-		bullet.configurar_colisao(4, 1)
 		bullet.global_position = $Spawn_bala.global_position
 		bullet.rotation = (player.global_position - bullet.global_position).angle()
+		bullet.configurar_colisao(2, 1)
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):
