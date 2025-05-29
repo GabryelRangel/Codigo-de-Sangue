@@ -60,7 +60,7 @@ func _on_Area2D_body_entered(body):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	var bullet_node = area.get_parent()
 	print("Algo entrou:", area.name, " Grupos do pai:", bullet_node.get_groups())
-	if bullet_node.is_in_group("player_bullets"):
+	if bullet_node.is_in_group("player_bullet"):
 		print("Bala do player detectada!")
 		take_damage(1)
 		bullet_node.queue_free()

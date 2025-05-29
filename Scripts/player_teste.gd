@@ -60,6 +60,7 @@ func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
 	bullet.dir=rotation
 	bullet.global_position=$Node2D.global_position
 	bullet.is_enemy_bullet = false
+	bullet.add_to_group("player_bullet")
 	bullet.configurar_colisao(3, 2)  # Bala do player: está na camada 3, colide com camada 2 (inimigos)
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()

@@ -1,9 +1,8 @@
 extends Node2D
-
+var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
 @export var damage: int = 1
 @export var max_health: int = 3  # Alterado para 3 vidas
-
 var current_health: int
 var player: Node2D = null
 
@@ -23,15 +22,18 @@ func _process(delta):
 		global_position += direction * speed * delta
 
 func take_damage(amount: int):
+	print("Bala atingiu inimigo 3")
 	current_health -= amount
 	print("Inimigo 3 tomou dano! Vida restante: ", current_health)
 	if current_health <= 0:
-		explode()
+		queue_free()
 		
 # Função para colisão com o jogador
 
 func explode():
-	print("Inimigo 3 explodiu!")
+	var explosion = explosion_scene.instantiate()
+	explosion.global_position = global_position
+	get_parent().add_child(explosion)
 	queue_free()
 
 func _on_area_2d_body_entered(body):
@@ -40,7 +42,8 @@ func _on_area_2d_body_entered(body):
 			body.take_damage(damage)
 		current_health = 0  # Perde toda a vida ao colidir
 		explode()
-func _on_area_dano_area_entered(area: Area2D) -> void:
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
 	var bullet = area.get_parent()
 	if bullet.is_in_group("player_bullet"):
 		take_damage(1)
