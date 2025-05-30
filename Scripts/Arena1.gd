@@ -3,6 +3,7 @@ extends Node2D
 var enemy_1=preload("res://Scenes/inimigo_1.tscn")
 var enemy_2=preload("res://Scenes/inimigo_2.tscn")
 var enemy_3=preload("res://Scenes/inimigo_3.tscn")
+
 func _ready():
 	Global.node_creation_parent = self
 
