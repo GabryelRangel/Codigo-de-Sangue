@@ -1,21 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=13 format=3 uid="uid://dgfcd0sal75i5"]
 
-[ext_resource type="Texture2D" uid="uid://bryi0x6kl0b6v" path="res://Assets/Fundo/Space Background (9).png" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://ddkl4s77ocfrx" path="res://Scripts/Arena1.gd" id="1_nnt18"]
 [ext_resource type="Texture2D" uid="uid://bq1qf3m7pxy5o" path="res://Assets/Fundo/Space Background (15).png" id="1_wowpa"]
 [ext_resource type="Texture2D" uid="uid://c56cga3s5yevj" path="res://Assets/Fundo/Space Background (16).png" id="2_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://c1er1whv72bqx" path="res://Assets/Fundo/Space Background (18).png" id="2_ldgsr"]
-[ext_resource type="PackedScene" uid="uid://pdfoxto6e3io" path="res://Scenes/inimigo_1.tscn" id="4_3dryh"]
 [ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Fundo/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="PackedScene" uid="uid://8w0pgw4ont2y" path="res://Scenes/Vida.tscn" id="14_nnt18"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
-[ext_resource type="PackedScene" uid="uid://caartsjmkx6sa" path="res://Scenes/inimigo_2.tscn" id="16_nnt18"]
-[ext_resource type="Script" uid="uid://dicmxrkg7i7kr" path="res://Scripts/victory.gd" id="17_85qyi"]
-[ext_resource type="PackedScene" uid="uid://crs1fdj7c7tcg" path="res://Scenes/bala_curva.tscn" id="17_ewbju"]
-[ext_resource type="PackedScene" uid="uid://c5w8gmaln67cm" path="res://Scenes/inimigo_3.tscn" id="18_85qyi"]
+[ext_resource type="Script" path="res://Scripts/victory.gd" id="17_85qyi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgsr"]
 size = Vector2(106.5, 5401)
@@ -48,14 +43,6 @@ motion_mirroring = Vector2(900, 900)
 texture = ExtResource("2_ldgsr")
 centered = false
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-visible = false
-motion_mirroring = Vector2(900, 900)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("1_3dryh")
-centered = false
-
 [node name="ParallaxLayer7" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.3, 0.3)
 
@@ -73,22 +60,6 @@ texture = ExtResource("2_h4fw4")
 position = Vector2(141, 325)
 rotation = 1.5708
 collision_mask = 1
-
-[node name="Inimigo1" parent="." instance=ExtResource("4_3dryh")]
-position = Vector2(526, 166)
-rotation = 3.14159
-scale = Vector2(1, 1)
-
-[node name="Inimigo2" parent="." instance=ExtResource("16_nnt18")]
-position = Vector2(348, 63)
-rotation = -4.31096
-scale = Vector2(0.7, 0.7)
-bala_curva_scene = ExtResource("17_ewbju")
-
-[node name="Inimigo3" parent="." instance=ExtResource("18_85qyi")]
-position = Vector2(508, 335)
-rotation = -1.28805
-scale = Vector2(0.5, 0.5)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 collision_layer = 255

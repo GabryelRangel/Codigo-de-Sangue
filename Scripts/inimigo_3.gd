@@ -11,8 +11,10 @@ func _ready():
 	call_deferred("_wait_for_player")
 
 func _wait_for_player():
-	while get_tree() == null or Global.player == null:
-		await get_tree().process_frame
+	while get_tree() == null:
+		await Engine.get_main_loop().idle_frame
+	while Global.player == null or not is_instance_valid(Global.player):
+		await get_tree().create_timer(0.1).timeout
 	player = Global.player
 
 func _process(delta):
