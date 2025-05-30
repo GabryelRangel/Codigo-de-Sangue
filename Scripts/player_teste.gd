@@ -1,8 +1,8 @@
 extends CharacterBody2D
 @export var speed = 800
-const  acceleration = 1200.0
-const max_speed = 2000.0 
-const friction = 100.0
+const acceleration = 1200.0
+const max_speed = 3000.0
+const friction = 1000.0
 var input = Vector2.ZERO
 var currentHealth: int = 3 #vida
 @export var dash_speed: float = 1000.0 
@@ -29,11 +29,13 @@ func _physics_process(delta): #função que reconhece o clique esquerdo e chama 
 		dash_timer -= delta
 		if dash_timer <= 0:
 			is_dashing = false
+			is_invincible = false
 	else:
 		if Input.is_action_just_pressed("right_click") and dash_cooldown_timer <= 0:
 			is_dashing = true
 			dash_timer = dash_duration
 			dash_cooldown_timer = dash_cooldown
+			is_invincible = true
 			dash_direction = Vector2.RIGHT.rotated(rotation)
 
 	if Input.is_action_just_pressed("left_click"):
@@ -45,13 +47,26 @@ func get_input(): #Função que reconhece movimentação wasd ou seta
 	input.y=int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return input.normalized()
 	
-func player_movement(direction, delta):
+func player_movement(direction: Vector2, delta: float):
 	if is_dashing:
 		velocity = dash_direction * dash_speed
-	elif direction:
-		velocity = velocity.move_toward(input * speed, delta * acceleration)
+	elif direction != Vector2.ZERO:
+		# Acelera na direção do input
+		velocity += direction.normalized() * acceleration * delta
+
+		# Verifica se está tentando mudar de direção
+		var alignment = velocity.normalized().dot(direction.normalized())
+		var braking_factor = clamp(1.0 - alignment, 0.0, 1.0)
+		var extra_friction = friction * 3.0 * braking_factor
+		velocity = velocity.move_toward(velocity, -extra_friction * delta)
+
+		# Limita à velocidade máxima
+		if velocity.length() > max_speed:
+			velocity = velocity.normalized() * max_speed
 	else:
-		velocity = velocity.move_toward(Vector2(0,0), delta * friction)
+		# Sem input, aplica fricção normal
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
 
 func fire():#função para fazer o tiro da nave com o clique direito funcionar
 	var bullet=bullet_path.instantiate()
@@ -68,6 +83,9 @@ func _ready():
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
 
 func _on_Hurtbox_area_entered(body): 
+	if is_invincible:
+		print("Dano ignorado: invencível!")
+		return
 	if body.is_in_group("enemy_bullet"):
 		print("Acertado por bala inimiga!")
 		take_damage(1)
