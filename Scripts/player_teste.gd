@@ -12,6 +12,7 @@ var dash_timer := 0.0
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var dash_cooldown_timer := 0.0
+var is_invincible: bool = false
 var bullet_path=preload("res://Scenes/bullet.tscn")
 
 func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
