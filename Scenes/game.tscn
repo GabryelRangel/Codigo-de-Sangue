@@ -209,9 +209,11 @@ offset_left = 180.0
 offset_top = 257.0
 offset_right = 680.0
 offset_bottom = 557.0
+mouse_filter = 2
 color = Color(0, 0, 0, 0.6)
 
 [node name="RestartButton" type="Button" parent="hud/Victory"]
+process_mode = 3
 layout_mode = 0
 offset_left = 353.0
 offset_top = 447.0

@@ -24,7 +24,7 @@ func _process(delta):
 func take_damage(amount: int):
 	current_health -= amount
 	if current_health <= 0:
-		Global.score += 1
+		Global.add_score(1)
 		queue_free()
 		
 # Função para colisão com o jogador

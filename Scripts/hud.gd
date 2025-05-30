@@ -7,6 +7,13 @@ extends CanvasLayer
 ]
 var previous_health := 3
 
+func update_score_label():
+	$Score.text = "Placar: " + str(Global.score)
+
+func show_victory_screen():
+	$Victory.visible = true
+	get_tree().paused = true
+
 func _process(_delta):
 	$Score.text = "Pontuação: %d" % Global.score
 
@@ -33,5 +40,7 @@ func _on_animation_finished(heart: AnimatedSprite2D):
 
 
 func _on_restart_button_pressed() -> void:
+	print("Botão Tentar Novamente pressionado!")
 	Global.score = 0
+	get_tree().paused = false
 	get_tree().reload_current_scene()
