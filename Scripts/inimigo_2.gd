@@ -12,13 +12,19 @@ var player: Node2D = null
 
 func _ready():
 	current_health = max_health
-	var game_root = get_tree().get_current_scene()
-	player = game_root.get_node("Player")
+	call_deferred("_wait_for_player")
 	$Timer.wait_time = fire_interval
 	$Timer.start()
 	$Area2D.connect("area_entered", Callable(self, "_on_area_2d_area_entered"))
 	
 @export var follow_distance: float = 300.0
+
+func _wait_for_player():
+	while get_tree() == null:
+		await Engine.get_main_loop().idle_frame
+	while Global.player == null or not is_instance_valid(Global.player):
+		await get_tree().create_timer(0.1).timeout
+	player = Global.player
 
 func _process(delta):
 	if not is_instance_valid(player):

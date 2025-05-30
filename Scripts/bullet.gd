@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var speed: float = 800.0
+@export var speed: float = 1200
 var dir: float
 var is_enemy_bullet: bool = false
 

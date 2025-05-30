@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=17 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="Texture2D" uid="uid://bryi0x6kl0b6v" path="res://Assets/Fundo/Space Background (9).png" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://pdfoxto6e3io" path="res://Scenes/inimigo_1.tscn" id="4_3dryh"]
 [ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Fundo/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
-[ext_resource type="Texture2D" uid="uid://cpnc1xif6eraj" path="res://Assets/Fundo/Space Background (11).png" id="6_h4fw4"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="PackedScene" uid="uid://8w0pgw4ont2y" path="res://Scenes/Vida.tscn" id="14_nnt18"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
@@ -49,6 +48,7 @@ texture = ExtResource("2_ldgsr")
 centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
 motion_mirroring = Vector2(900, 900)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
@@ -60,13 +60,6 @@ motion_scale = Vector2(0.3, 0.3)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer7"]
 texture = ExtResource("5_ldgsr")
-centered = false
-
-[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer6"]
-texture = ExtResource("6_h4fw4")
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -198,7 +191,7 @@ theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
 
 [node name="Spawner_Inimigo" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 4.0
 autostart = true
 
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart1" to="hud" method="_on_heart_1_animation_finished"]
