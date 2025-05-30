@@ -5,8 +5,10 @@ extends CanvasLayer
 	$HBoxContainer/Heart2,
 	$HBoxContainer/Heart3
 ]
-
 var previous_health := 3
+
+func _process(_delta):
+	$Score.text = "Pontuação: %d" % Global.score
 
 func _ready():
 	for heart in hearts:
@@ -23,9 +25,13 @@ func update_hearts(current_health: int):
 			# Só inicia transição se estava cheio anteriormente
 			if previous_health > i and hearts[i].animation == "cheio":
 				hearts[i].play("transicao")
-	
 	previous_health = current_health
 
 func _on_animation_finished(heart: AnimatedSprite2D):
 	if heart.animation == "transicao":
 		heart.play("vazio")
+
+
+func _on_restart_button_pressed() -> void:
+	Global.score = 0
+	get_tree().reload_current_scene()

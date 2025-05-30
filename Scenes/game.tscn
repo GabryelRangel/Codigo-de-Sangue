@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=19 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="Texture2D" uid="uid://bryi0x6kl0b6v" path="res://Assets/Fundo/Space Background (9).png" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://8w0pgw4ont2y" path="res://Scenes/Vida.tscn" id="14_nnt18"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
 [ext_resource type="PackedScene" uid="uid://caartsjmkx6sa" path="res://Scenes/inimigo_2.tscn" id="16_nnt18"]
+[ext_resource type="Script" uid="uid://dicmxrkg7i7kr" path="res://Scripts/victory.gd" id="17_85qyi"]
 [ext_resource type="PackedScene" uid="uid://crs1fdj7c7tcg" path="res://Scenes/bala_curva.tscn" id="17_ewbju"]
 [ext_resource type="PackedScene" uid="uid://c5w8gmaln67cm" path="res://Scenes/inimigo_3.tscn" id="18_85qyi"]
 
@@ -81,7 +82,7 @@ rotation = 1.5708
 collision_mask = 1
 
 [node name="Inimigo1" parent="." instance=ExtResource("4_3dryh")]
-position = Vector2(515, 135)
+position = Vector2(526, 166)
 rotation = 3.14159
 scale = Vector2(1, 1)
 
@@ -141,6 +142,7 @@ position = Vector2(20, 26)
 scale = Vector2(2, 2)
 
 [node name="GameOver" type="Control" parent="hud"]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -158,26 +160,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -255.0
-offset_top = -240.0
-offset_right = 245.0
-offset_bottom = 60.0
+offset_left = -211.0
+offset_top = -243.0
+offset_right = 200.0
+offset_bottom = 78.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.647059, 0, 0, 1)
-
-[node name="Label" type="Label" parent="hud/GameOver"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -19.0
-offset_top = 12.0
-offset_right = 21.0
-offset_bottom = 35.0
-grow_horizontal = 2
-horizontal_alignment = 1
-vertical_alignment = 1
+color = Color(0, 0, 0, 0.6)
 
 [node name="Button" type="Button" parent="hud/GameOver"]
 layout_mode = 1
@@ -197,6 +186,46 @@ offset_bottom = -119.0
 theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
 
+[node name="Score" type="Label" parent="hud"]
+offset_left = 379.0
+offset_top = 8.0
+offset_right = 439.0
+offset_bottom = 31.0
+
+[node name="Victory" type="Control" parent="hud"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("17_85qyi")
+
+[node name="Label" type="Label" parent="hud/Victory"]
+layout_mode = 0
+offset_left = 339.0
+offset_top = 299.0
+offset_right = 545.0
+offset_bottom = 368.0
+theme_override_colors/font_color = Color(0.443137, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "You win!"
+
+[node name="Background" type="ColorRect" parent="hud/Victory"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 257.0
+offset_right = 680.0
+offset_bottom = 557.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="RestartButton" type="Button" parent="hud/Victory"]
+layout_mode = 0
+offset_left = 353.0
+offset_top = 447.0
+offset_right = 493.0
+offset_bottom = 478.0
+text = "Jogar novamente"
+
 [node name="Spawner_Inimigo" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
@@ -204,4 +233,5 @@ autostart = true
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart1" to="hud" method="_on_heart_1_animation_finished"]
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart2" to="hud" method="_on_heart_2_animation_finished"]
 [connection signal="animation_finished" from="hud/HBoxContainer/Heart3" to="hud" method="_on_heart_3_animation_finished"]
+[connection signal="pressed" from="hud/Victory/RestartButton" to="hud" method="_on_restart_button_pressed"]
 [connection signal="timeout" from="Spawner_Inimigo" to="." method="_on_spawner_inimigo_timeout"]

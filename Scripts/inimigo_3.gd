@@ -22,10 +22,9 @@ func _process(delta):
 		global_position += direction * speed * delta
 
 func take_damage(amount: int):
-	print("Bala atingiu inimigo 3")
 	current_health -= amount
-	print("Inimigo 3 tomou dano! Vida restante: ", current_health)
 	if current_health <= 0:
+		Global.score += 1
 		queue_free()
 		
 # Função para colisão com o jogador

@@ -12,7 +12,6 @@ var dash_timer := 0.0
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var dash_cooldown_timer := 0.0
-
 var bullet_path=preload("res://Scenes/bullet.tscn")
 
 func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
@@ -20,7 +19,7 @@ func _physics_process(delta): #função que reconhece o clique esquerdo e chama 
 	input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	player_movement(input, delta)
 	move_and_slide()
-	
+
 	# Cooldown do dash
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -31,7 +30,6 @@ func _physics_process(delta): #função que reconhece o clique esquerdo e chama 
 		if dash_timer <= 0:
 			is_dashing = false
 	else:
-# Iniciar dash se clique direito e cooldown pronto
 		if Input.is_action_just_pressed("right_click") and dash_cooldown_timer <= 0:
 			is_dashing = true
 			dash_timer = dash_duration
@@ -55,7 +53,7 @@ func player_movement(direction, delta):
 	else:
 		velocity = velocity.move_toward(Vector2(0,0), delta * friction)
 
-func fire():#função para fazer o tiro da nave com o clique esquerdo funcionar
+func fire():#função para fazer o tiro da nave com o clique direito funcionar
 	var bullet=bullet_path.instantiate()
 	bullet.dir=rotation
 	bullet.global_position=$Node2D.global_position
@@ -82,7 +80,10 @@ func _on_Hurtbox_area_entered(body):
 
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
-	hud.get_node("GameOver").show_game_over()
+	if Global.score >= 30:
+		hud.get_node("Victory").show_victory()
+	else:
+		hud.get_node("GameOver").show_game_over()
 	queue_free()  # remove o player da cena
 
 func take_damage(amount: int):

@@ -50,6 +50,7 @@ func take_damage(amount: int):
 		die()
 
 func die():
+	Global.score += 1
 	queue_free()
 
 func _on_Area2D_body_entered(body):

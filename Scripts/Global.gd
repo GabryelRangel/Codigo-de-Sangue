@@ -1,7 +1,7 @@
 extends Node
 var node_creation_parent: Node = null
 var player: Node2D = null
-
+var score: int = 0
 
 func instance_node(node, location, parent):
 	var node_instance = node.instantiate()
