@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="PackedScene" uid="uid://8w0pgw4ont2y" path="res://Scenes/Vida.tscn" id="14_nnt18"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
-[ext_resource type="Script" path="res://Scripts/victory.gd" id="17_85qyi"]
+[ext_resource type="Script" uid="uid://dicmxrkg7i7kr" path="res://Scripts/victory.gd" id="17_85qyi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgsr"]
 size = Vector2(106.5, 5401)
