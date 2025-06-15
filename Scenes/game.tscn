@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgfcd0sal75i5"]
+[gd_scene load_steps=14 format=3 uid="uid://dgfcd0sal75i5"]
 
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://ddkl4s77ocfrx" path="res://Scripts/Arena1.gd" id="1_nnt18"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Fundo/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
+[ext_resource type="PackedScene" uid="uid://dsk50xsf7e5bd" path="res://Scenes/Pause_menu.tscn" id="12_rku1e"]
 [ext_resource type="PackedScene" uid="uid://8w0pgw4ont2y" path="res://Scenes/Vida.tscn" id="14_nnt18"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
 [ext_resource type="Script" uid="uid://dicmxrkg7i7kr" path="res://Scripts/victory.gd" id="17_85qyi"]
@@ -191,6 +192,17 @@ offset_top = 447.0
 offset_right = 493.0
 offset_bottom = 478.0
 text = "Jogar novamente"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause_menu" parent="CanvasLayer" instance=ExtResource("12_rku1e")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -24.5
+offset_bottom = 24.5
 
 [node name="Spawner_Inimigo" type="Timer" parent="."]
 wait_time = 4.0
