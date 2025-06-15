@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bq1qf3m7pxy5o" path="res://Assets/Fundo/Space Background (15).png" id="1_wowpa"]
 [ext_resource type="Texture2D" uid="uid://c56cga3s5yevj" path="res://Assets/Fundo/Space Background (16).png" id="2_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://c1er1whv72bqx" path="res://Assets/Fundo/Space Background (18).png" id="2_ldgsr"]
-[ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Fundo/Space Background (14).png" id="5_h4fw4"]
+[ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="PackedScene" uid="uid://dsk50xsf7e5bd" path="res://Scenes/Pause_menu.tscn" id="12_rku1e"]
