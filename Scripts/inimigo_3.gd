@@ -1,7 +1,7 @@
 extends Node2D
 var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
-@export var damage: int = 1
+@export var damage: int = 50
 @export var max_health: int = 3  # Alterado para 3 vidas
 var current_health: int
 var player: Node2D = null

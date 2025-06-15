@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://072mxoyxvowx"]
+
+[ext_resource type="Texture2D" uid="uid://dfxbdooeyyw3o" path="res://Assets/greenbar (2).png" id="2_2s5sm"]
+
+[node name="Node2D" type="CanvasLayer"]
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -29.0
+offset_top = -62.0
+offset_right = 221.0
+offset_bottom = 188.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_right = 2
+texture_progress = ExtResource("2_2s5sm")

@@ -1,11 +1,8 @@
 extends CanvasLayer
 
-@onready var hearts = [
-	$HBoxContainer/Heart1,
-	$HBoxContainer/Heart2,
-	$HBoxContainer/Heart3
-]
-var previous_health := 3
+@onready var score_label = $Score
+@onready var victory_screen = $Victory
+@onready var health_bar = $HealthBar/HealthBar
 
 func update_score_label():
 	$Score.text = "Placar: " + str(Global.score)
@@ -18,29 +15,17 @@ func _process(_delta):
 	$Score.text = "Pontuação: %d" % Global.score
 
 func _ready():
-	for heart in hearts:
-		heart.animation_finished.connect(_on_animation_finished.bind(heart))
-		heart.play("cheio")
-
-func update_hearts(current_health: int):
-	for i in range(hearts.size()):
-		if current_health > i:
-			# Mantém ou restaura coração cheio
-			if hearts[i].animation != "cheio":
-				hearts[i].play("cheio")
-		else:
-			# Só inicia transição se estava cheio anteriormente
-			if previous_health > i and hearts[i].animation == "cheio":
-				hearts[i].play("transicao")
-	previous_health = current_health
-
-func _on_animation_finished(heart: AnimatedSprite2D):
-	if heart.animation == "transicao":
-		heart.play("vazio")
-
+	var player = get_tree().get_current_scene().get_node("Player")
+	if player:
+		player.connect("health_changed", Callable(self, "_on_player_health_changed"))
 
 func _on_restart_button_pressed() -> void:
 	print("Botão Tentar Novamente pressionado!")
 	Global.score = 0
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+	
+
+func _on_player_health_changed(current: int, max: int) -> void:
+	health_bar.max_value = max
+	health_bar.value = current

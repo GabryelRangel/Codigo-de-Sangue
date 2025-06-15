@@ -1,31 +1,44 @@
 extends CharacterBody2D
+
 @export var speed = 800
 const acceleration = 1200.0
 const max_speed = 3000.0
 const friction = 1000.0
+
 var input = Vector2.ZERO
-var currentHealth: int = 3 #vida
+
+@export var max_health := 100
+var current_health := max_health
+
 @export var dash_speed: float = 1000.0 
 @export var dash_duration: float = 0.2 
-@export var dash_cooldown: float = 2.0 #tempo de carregamento do dash
+@export var dash_cooldown: float = 2.0
+
 var dash_timer := 0.0
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var dash_cooldown_timer := 0.0
 var is_invincible: bool = false
-var bullet_path=preload("res://Scenes/bullet.tscn")
 
-func _physics_process(delta): #função que reconhece o clique esquerdo e chama a função atirar
+var bullet_path = preload("res://Scenes/bullet.tscn")
+
+signal health_changed(current, max)
+
+func _ready():
+	Global.player = self
+	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
+	emit_signal("health_changed", current_health, max_health)
+
+func _physics_process(delta):
 	look_at(get_global_mouse_position())
-	input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
+	input = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	player_movement(input, delta)
 	move_and_slide()
 
-	# Cooldown do dash
+	# Dash cooldown
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 
-# Dash ativo
 	if is_dashing:
 		dash_timer -= delta
 		if dash_timer <= 0:
@@ -43,59 +56,53 @@ func _physics_process(delta): #função que reconhece o clique esquerdo e chama 
 		fire()
 		look_at(get_global_mouse_position())
 
-func get_input(): #Função que reconhece movimentação wasd ou seta
-	input.x=int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	input.y=int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+func get_input():
+	input.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	input.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return input.normalized()
 	
 func player_movement(direction: Vector2, delta: float):
 	if is_dashing:
 		velocity = dash_direction * dash_speed
 	elif direction != Vector2.ZERO:
-		# Acelera na direção do input
 		velocity += direction.normalized() * acceleration * delta
 
-		# Verifica se está tentando mudar de direção
 		var alignment = velocity.normalized().dot(direction.normalized())
 		var braking_factor = clamp(1.0 - alignment, 0.0, 1.0)
 		var extra_friction = friction * 3.0 * braking_factor
 		velocity = velocity.move_toward(velocity, -extra_friction * delta)
 
-		# Limita à velocidade máxima
 		if velocity.length() > max_speed:
 			velocity = velocity.normalized() * max_speed
 	else:
-		# Sem input, aplica fricção normal
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-
-func fire():#função para fazer o tiro da nave com o clique direito funcionar
-	var bullet=bullet_path.instantiate()
-	bullet.dir=rotation
-	bullet.global_position=$Node2D.global_position
+func fire():
+	var bullet = bullet_path.instantiate()
+	bullet.dir = rotation
+	bullet.global_position = $Node2D.global_position
 	bullet.is_enemy_bullet = false
 	bullet.add_to_group("player_bullet")
-	bullet.configurar_colisao(3, 2)  # Bala do player: está na camada 3, colide com camada 2 (inimigos)
+	bullet.configurar_colisao(3, 2)
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()
 	
-func _ready():
-	Global.player = self
-	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
-
 func _on_Hurtbox_area_entered(body): 
 	if is_invincible:
 		print("Dano ignorado: invencível!")
 		return
 	if body.is_in_group("enemy_bullet"):
 		print("Acertado por bala inimiga!")
-		take_damage(1)
+		take_damage(30)
 		body.queue_free()
-		var hud = get_tree().get_current_scene().get_node("hud")
-		hud.update_hearts(currentHealth)
-		if currentHealth <= 0:
-			die()
 
+func take_damage(amount: int):
+	current_health -= amount
+	current_health = max(current_health, 0)
+	print("Player tomou dano! Vida restante:", current_health)
+	emit_signal("health_changed", current_health, max_health)
+	if current_health <= 0:
+		die()
 
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
@@ -103,13 +110,4 @@ func die():
 		hud.get_node("Victory").show_victory()
 	else:
 		hud.get_node("GameOver").show_game_over()
-	queue_free()  # remove o player da cena
-
-func take_damage(amount: int):
-	currentHealth -= amount
-	print("Player tomou dano! Vida restante:", currentHealth)
-	
-	var hud = get_tree().get_current_scene().get_node("hud")
-	hud.update_hearts(currentHealth)
-	if currentHealth <= 0:
-		die()
+	queue_free()
