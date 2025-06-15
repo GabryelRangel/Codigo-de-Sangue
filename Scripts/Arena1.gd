@@ -17,4 +17,4 @@ func _on_spawner_inimigo_timeout():
 	Global.instance_node(enemy_1, enemy_postion, self)
 	Global.instance_node(enemy_2, enemy_postion, self)
 	var enemy_postion3 = Vector2(randf_range(-2700,2700), randf_range(-2700, 2700))
-	Global.instance_node(enemy_3, enemy_postion, self)
+	Global.instance_node(enemy_3, enemy_postion3, self)
