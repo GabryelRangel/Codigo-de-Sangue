@@ -84,6 +84,17 @@ position = Vector2(0, -2748)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_ldgsr")
 
+[node name="Pause" type="CanvasLayer" parent="."]
+
+[node name="Pause_menu" parent="Pause" instance=ExtResource("12_rku1e")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -24.5
+offset_bottom = 24.5
+
 [node name="hud" type="CanvasLayer" parent="."]
 script = ExtResource("11_1phco")
 
@@ -192,17 +203,6 @@ offset_top = 447.0
 offset_right = 493.0
 offset_bottom = 478.0
 text = "Jogar novamente"
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Pause_menu" parent="CanvasLayer" instance=ExtResource("12_rku1e")]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = -24.5
-offset_bottom = 24.5
 
 [node name="Spawner_Inimigo" type="Timer" parent="."]
 wait_time = 4.0
