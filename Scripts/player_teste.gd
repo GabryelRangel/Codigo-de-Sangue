@@ -1,27 +1,24 @@
 extends CharacterBody2D
-
+#Variáveis
 @export var speed = 800
 const acceleration = 1200.0
 const max_speed = 3000.0
 const friction = 1000.0
-
 var input = Vector2.ZERO
-
+var current_xp := 0
+var xp_to_next_level := 100
+var level := 1
 @export var max_health := 100
 var current_health := max_health
-
 @export var dash_speed: float = 1000.0 
 @export var dash_duration: float = 0.2 
 @export var dash_cooldown: float = 2.0
-
 var dash_timer := 0.0
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var dash_cooldown_timer := 0.0
 var is_invincible: bool = false
-
 var bullet_path = preload("res://Scenes/bullet.tscn")
-
 signal health_changed(current, max)
 
 func _ready():
@@ -52,7 +49,7 @@ func _physics_process(delta):
 			is_invincible = true
 			dash_direction = Vector2.RIGHT.rotated(rotation)
 
-	if Input.is_action_just_pressed("left_click"):
+	if Input.is_action_just_pressed("left_click"):#Atira pelo clique esquerdo
 		fire()
 		look_at(get_global_mouse_position())
 
@@ -77,7 +74,7 @@ func player_movement(direction: Vector2, delta: float):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-func fire():
+func fire():#Faz a bala sair
 	var bullet = bullet_path.instantiate()
 	bullet.dir = rotation
 	bullet.global_position = $Node2D.global_position
@@ -103,6 +100,18 @@ func take_damage(amount: int):
 	emit_signal("health_changed", current_health, max_health)
 	if current_health <= 0:
 		die()
+		
+func gain_xp(amount: int):
+	current_xp += amount
+	print("XP atual: ", current_xp)
+	if current_xp >= xp_to_next_level:
+		level_up()
+
+func level_up():
+	current_xp -= xp_to_next_level
+	level += 1
+	xp_to_next_level += 50
+	print("Subiu para o nível ", level)
 
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
@@ -111,3 +120,8 @@ func die():
 	else:
 		hud.get_node("GameOver").show_game_over()
 	queue_free()
+
+
+func _on_xp_magnet_area_entered(area: Area2D) -> void:
+	if area.is_in_group("xp_orb"):
+		area.start_attraction(self)

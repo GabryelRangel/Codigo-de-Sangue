@@ -1,10 +1,11 @@
 extends Node2D
 var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
-@export var damage: int = 50
+@export var damage: int = 30
 @export var max_health: int = 3  # Alterado para 3 vidas
 var current_health: int
 var player: Node2D = null
+var xp_orb_scene = preload("res://Scenes/xp.tscn")
 
 func _ready():
 	current_health = max_health
@@ -26,11 +27,16 @@ func _process(delta):
 func take_damage(amount: int):
 	current_health -= amount
 	if current_health <= 0:
-		Global.add_score(1)
-		queue_free()
-		
-# Função para colisão com o jogador
+		call_deferred("die")
 
+func die():
+	Global.add_score(1)
+	var orb = xp_orb_scene.instantiate()
+	orb.global_position = global_position
+	get_parent().add_child(orb)
+	queue_free()
+
+# Função para colisão com o jogador
 func explode():
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position

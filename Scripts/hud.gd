@@ -25,7 +25,12 @@ func _on_restart_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 	
-
+var health_tween: Tween = null
 func _on_player_health_changed(current: int, max: int) -> void:
 	health_bar.max_value = max
-	health_bar.value = current
+
+	if health_tween:
+		health_tween.kill()  # Para qualquer animação anterior
+
+	health_tween = create_tween()
+	health_tween.tween_property(health_bar, "value", current, 0.3)

@@ -26,7 +26,7 @@ func _on_area_entered(area: Area2D):
 	# Atinge apenas o grupo oposto
 	if is_enemy_bullet and area.is_in_group("player"):
 		if parent.has_method("take_damage"):
-			parent.take_damage(1)
+			parent.take_damage(25)
 		queue_free()
 	elif not is_enemy_bullet and area.is_in_group("enemy"):
 		if parent.has_method("take_damage"):

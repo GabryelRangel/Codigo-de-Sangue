@@ -12,6 +12,7 @@ var orbitando := false
 var orbit_angle := 0.0
 var orbit_radius := 200.0
 var orbit_speed := 1.0
+var xp_orb_scene = preload("res://Scenes/xp.tscn")
 
 func _ready():
 	
@@ -71,11 +72,15 @@ func shoot():
 func take_damage(amount: int):
 	current_health -= amount
 	if current_health <= 0:
-		die()
+		call_deferred("die")
 
 func die():
 	Global.add_score(1)
+	var orb = xp_orb_scene.instantiate()
+	orb.global_position = global_position
+	get_parent().add_child(orb)
 	queue_free()
+
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("is_player_bullet") and body.is_player_bullet():

@@ -1,5 +1,5 @@
 extends Node2D
-
+var xp_orb_scene = preload("res://Scenes/xp.tscn")
 @export var speed: float = 300.0
 @export var bala_curva_scene: PackedScene
 @export var fire_interval: float = 1.5
@@ -53,10 +53,13 @@ func shoot():
 func take_damage(amount: int):
 	current_health -= amount
 	if current_health <= 0:
-		die()
+		call_deferred("die")
 
 func die():
 	Global.add_score(1)
+	var orb = xp_orb_scene.instantiate()
+	orb.global_position = global_position
+	get_parent().add_child(orb)
 	queue_free()
 
 func _on_Area2D_body_entered(body):
