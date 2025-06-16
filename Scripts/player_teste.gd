@@ -63,7 +63,6 @@ func player_movement(direction: Vector2, delta: float):
 		velocity = dash_direction * dash_speed
 	elif direction != Vector2.ZERO:
 		velocity += direction.normalized() * acceleration * delta
-
 		var alignment = velocity.normalized().dot(direction.normalized())
 		var braking_factor = clamp(1.0 - alignment, 0.0, 1.0)
 		var extra_friction = friction * 3.0 * braking_factor

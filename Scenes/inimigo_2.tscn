@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://caartsjmkx6sa"]
+[gd_scene load_steps=6 format=3 uid="uid://caartsjmkx6sa"]
 
 [ext_resource type="Script" uid="uid://cqj71wb117glc" path="res://Scripts/inimigo_2.gd" id="1_t3t4i"]
 [ext_resource type="Texture2D" uid="uid://c0au1888ce6mi" path="res://Assets/tiny_ship3.png" id="2_44jpd"]
+[ext_resource type="PackedScene" uid="uid://crs1fdj7c7tcg" path="res://Scenes/bala_curva.tscn" id="2_kl66u"]
 [ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="3_44jpd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_44jpd"]
@@ -9,6 +10,7 @@ radius = 37.0
 
 [node name="inimigo_2" type="Node2D" groups=["enemy"]]
 script = ExtResource("1_t3t4i")
+bala_curva_scene = ExtResource("2_kl66u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -28,7 +30,7 @@ wait_time = 1.731
 autostart = true
 
 [node name="Spawn_bala" type="Node2D" parent="."]
-position = Vector2(13, 0)
+position = Vector2(34, 0)
 scale = Vector2(-29.2989, -27.985)
 
 [node name="State Machine" type="Node" parent="."]
