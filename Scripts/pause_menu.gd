@@ -1,34 +1,48 @@
 extends Control
+var is_paused := false
+var can_toggle := true
 
 func _ready():
 	$AnimationPlayer.play("RESET")
-
-func resume():
-	get_tree().paused = false
-	$AnimationPlayer.play_backwards("blurr")
+	$AnimationPlayer.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
 func pause():
+	if is_paused or not can_toggle:
+		return
+	is_paused = true
+	can_toggle = false
 	get_tree().paused = true
 	$AnimationPlayer.play("blurr")
 
-func testEsc():
-	if Input.is_action_just_pressed("escape") and !get_tree().paused:
-		pause()
-	elif Input.is_action_just_pressed("escape") and get_tree().paused:
-		resume()
+func resume():
+	if not is_paused or not can_toggle:
+		return
+	is_paused = false
+	can_toggle = false
+	get_tree().paused = false
+	$AnimationPlayer.play_backwards("blurr")
 
+func _on_animation_finished(anim_name):
+	if anim_name == "blurr":
+		can_toggle = true
+
+func _input(event):
+	if event.is_action_pressed("escape") and can_toggle:
+		if is_paused:
+			resume()
+		else:
+			pause()
 
 func _on_resume_pressed():
-	resume()
+	if can_toggle:
+		resume()
 
 func _on_quit_pressed():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scenes/Main_Menu.tscn")
 
-func _process(delta):
-	testEsc()
-
-
 func _on_restart_pressed() -> void:
-	resume()
-	get_tree().reload_current_scene()
+	if can_toggle:
+		Global.score = 0
+		resume()
+		get_tree().reload_current_scene()

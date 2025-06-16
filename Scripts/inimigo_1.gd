@@ -12,6 +12,8 @@ var orbitando := false
 var orbit_angle := 0.0
 var orbit_radius := 200.0
 var orbit_speed := 1.0
+var on_screen := false
+
 
 func _ready():
 	
@@ -58,6 +60,17 @@ func _on_timer_timeout():
 	shoot()
 
 func shoot():
+	if not on_screen:
+		print("Bala impossibilitada")
+		return  # Não atira se estiver fora da tela
+	if not is_instance_valid(player):
+		return  # Player foi destruído, não tenta fazer mais nada
+	
+	var distance = global_position.distance_to(player.global_position)
+	if distance > 470:
+		print("Inimigo longe")
+		return  # Só atira se o player estiver a menos de 500px de distância
+
 	if bullet_scene and is_instance_valid(player):
 		var bullet = bullet_scene.instantiate()
 		bullet.global_position = $Spawn_bala.global_position
@@ -90,3 +103,10 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		print("Bala do player detectada!")
 		take_damage(1)
 		bullet_node.queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_entered():
+	on_screen = true
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	on_screen = false
