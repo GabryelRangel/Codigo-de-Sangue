@@ -25,6 +25,12 @@ func _on_restart_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 	
+
+	# Reiniciar UI
+	queue_free()  # Isso vai destruir o CanvasLayer atual, assim ele recarrega junto com a cena
+
+	# Reiniciar cena
+	get_tree().reload_current_scene()
 var health_tween: Tween = null
 func _on_player_health_changed(current: int, max: int) -> void:
 	health_bar.max_value = max

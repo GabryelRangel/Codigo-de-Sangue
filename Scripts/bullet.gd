@@ -13,7 +13,11 @@ func _ready():
 
 func _process(delta):
 	var direction = Vector2.RIGHT.rotated(rotation)
-	position += direction * speed * delta
+	position += direction * speed * delta	
+	if has_node("VisibilityNotifier2D") and not $VisibilityNotifier2D.is_on_screen():
+		print("Bala saiu de cena")
+		queue_free()
+
 
 
 func _on_area_entered(area: Area2D):
