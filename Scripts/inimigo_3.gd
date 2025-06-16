@@ -2,7 +2,7 @@ extends Node2D
 var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
 @export var damage: int = 30
-@export var max_health: int = 3  # Alterado para 3 vidas
+@export var max_health: int = 100
 var current_health: int
 var player: Node2D = null
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
@@ -53,5 +53,5 @@ func _on_area_2d_body_entered(body):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	var bullet = area.get_parent()
 	if bullet.is_in_group("player_bullet"):
-		take_damage(1)
+		take_damage(bullet.damage)
 		bullet.queue_free()

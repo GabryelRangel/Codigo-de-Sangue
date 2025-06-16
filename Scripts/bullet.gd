@@ -1,5 +1,5 @@
 extends Area2D
-
+@export var damage: int = 30
 @export var speed: float = 1200
 var dir: float
 var is_enemy_bullet: bool = false
@@ -22,11 +22,9 @@ func _process(delta):
 
 func _on_area_entered(area: Area2D):
 	var parent = area.get_parent()
-	
 	# Evita colidir com outras balas ou o próprio atirador
 	if parent == self or parent.is_in_group("enemy" if is_enemy_bullet else "player"):
 		return
-	
 	# Atinge apenas o grupo oposto
 	if is_enemy_bullet and area.is_in_group("player"):
 		if parent.has_method("take_damage"):
@@ -34,7 +32,7 @@ func _on_area_entered(area: Area2D):
 		queue_free()
 	elif not is_enemy_bullet and area.is_in_group("enemy"):
 		if parent.has_method("take_damage"):
-			parent.take_damage(1)
+			parent.take_damage(damage)
 		queue_free()
 
 func configurar_cor(cor: Color):

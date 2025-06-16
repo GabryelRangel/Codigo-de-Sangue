@@ -3,7 +3,7 @@ var xp_orb_scene = preload("res://Scenes/xp.tscn")
 @export var speed: float = 300.0
 @export var bala_curva_scene: PackedScene
 @export var fire_interval: float = 1.5
-@export var max_health: int = 3
+@export var max_health: int = 100
 @export var accell: float = 100
 @export var max_speed: float = 400
 
@@ -64,7 +64,7 @@ func die():
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("is_player_bullet") and body.is_player_bullet():
-		take_damage(1)
+		take_damage(body.damage)
 		body.queue_free()
 
 
@@ -73,5 +73,5 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	print("Algo entrou:", area.name, " Grupos do pai:", bullet_node.get_groups())
 	if bullet_node.is_in_group("player_bullet"):
 		print("Bala do player detectada!")
-		take_damage(1)
+		take_damage(bullet_node.damage)
 		bullet_node.queue_free()

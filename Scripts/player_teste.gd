@@ -20,6 +20,7 @@ var dash_cooldown_timer := 0.0
 var is_invincible: bool = false
 var bullet_path = preload("res://Scenes/bullet.tscn")
 signal health_changed(current, max)
+@export var base_damage := 35
 
 func _ready():
 	Global.player = self
@@ -75,6 +76,7 @@ func player_movement(direction: Vector2, delta: float):
 
 func fire():#Faz a bala sair
 	var bullet = bullet_path.instantiate()
+	bullet.damage = base_damage
 	bullet.dir = rotation
 	bullet.global_position = $Node2D.global_position
 	bullet.is_enemy_bullet = false
@@ -83,7 +85,7 @@ func fire():#Faz a bala sair
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()
 	
-func _on_Hurtbox_area_entered(body): 
+func _on_Hurtbox_area_entered(body):#Ativa quando o player é atingido por balas inimigas
 	if is_invincible:
 		print("Dano ignorado: invencível!")
 		return
@@ -92,7 +94,7 @@ func _on_Hurtbox_area_entered(body):
 		take_damage(30)
 		body.queue_free()
 
-func take_damage(amount: int):
+func take_damage(amount: int):#Função que processa o dano
 	current_health -= amount
 	current_health = max(current_health, 0)
 	print("Player tomou dano! Vida restante:", current_health)
@@ -111,6 +113,9 @@ func level_up():
 	level += 1
 	xp_to_next_level += 50
 	print("Subiu para o nível ", level)
+	get_tree().paused = true
+	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
+	upgrade_menu.show()
 
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
@@ -124,3 +129,23 @@ func die():
 func _on_xp_magnet_area_entered(area: Area2D) -> void:
 	if area.is_in_group("xp_orb"):
 		area.start_attraction(self)
+
+
+func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
+	match upgrade_name:
+		"Mais Dano":
+			base_damage += 15
+			print("Upgrade: Mais Dano. Novo dano:", base_damage)
+		
+		"Mais Vida":
+			max_health += 20
+			current_health += 20
+			emit_signal("health_changed", current_health, max_health)
+			print("Upgrade: Mais Vida")
+		
+		"Mais XP":
+			xp_to_next_level = max(20, xp_to_next_level - 20)
+			print("Upgrade: Mais XP (xp_to_next_level agora é %d)" % xp_to_next_level)
+	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
+	upgrade_menu.hide()
+	get_tree().paused = false
