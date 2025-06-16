@@ -61,14 +61,14 @@ func _on_timer_timeout():
 
 func shoot():
 	if not on_screen:
-		print("Bala impossibilitada")
+		#print("Bala impossibilitada")
 		return  # Não atira se estiver fora da tela
 	if not is_instance_valid(player):
 		return  # Player foi destruído, não tenta fazer mais nada
 	
 	var distance = global_position.distance_to(player.global_position)
 	if distance > 470:
-		print("Inimigo longe")
+		#print("Inimigo longe")
 		return  # Só atira se o player estiver a menos de 500px de distância
 
 	if bullet_scene and is_instance_valid(player):
