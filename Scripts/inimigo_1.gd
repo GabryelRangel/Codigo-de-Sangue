@@ -10,13 +10,15 @@ var current_health: int
 var player: Node2D = null
 var orbitando := false
 var orbit_angle := 0.0
-var orbit_radius := 200.0
+var orbit_radius := 250.0
+var orbit_direction := 1.0
 var orbit_speed := 1.0
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
 var on_screen := false
 
 
 func _ready():
+	randomize() #Permite que a orbita do inimigo mude a cada run
 	current_health = max_health
 	call_deferred("_wait_for_player")
 
@@ -36,21 +38,21 @@ func _process(delta):
 
 	if orbitando:
 		# Sai da órbita se o player se afastar demais
-		if distance > orbit_radius * 1.5:
+		if distance > orbit_radius * 1.8:
 			orbitando = false
 		else:
-			# Continua orbitando
-			orbit_angle += orbit_speed * delta
-			var offset = Vector2(cos(orbit_angle), sin(orbit_angle)) * orbit_radius
-			global_position = player.global_position + offset
+			# Gira suavemente em torno do player
+			orbit_angle += orbit_speed * delta * orbit_direction  # Pode ser -1 ou 1
+			var target_pos = player.global_position + Vector2(cos(orbit_angle), sin(orbit_angle)) * orbit_radius
+			global_position = global_position.lerp(target_pos, 0.1)  # Suaviza o movimento
 	else:
 		# Entra na órbita se estiver perto o suficiente
 		if distance <= orbit_radius:
 			orbitando = true
-			# Alinha a órbita com a posição atual
 			orbit_angle = (global_position - player.global_position).angle()
+			orbit_direction = [-1.0, 1.0][randi() % 2]  # Escolhe aleatoriamente o sentido da órbita
 		else:
-			# Persegue o player normalmente
+	# Movimento normal de perseguição
 			var direction = to_player.normalized()
 			speed = min(speed + accell * delta, max_speed)
 			global_position += direction * speed * delta

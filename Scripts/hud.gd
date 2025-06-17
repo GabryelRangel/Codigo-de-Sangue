@@ -12,7 +12,7 @@ func show_victory_screen():
 	get_tree().paused = true
 
 func _process(_delta):
-	$Score.text = "Pontuação: %d" % Global.score
+	$Score.text = "Pontuação:\n%d" % Global.score
 
 func _ready():
 	var player = get_tree().get_current_scene().get_node("Player")
