@@ -74,7 +74,7 @@ func player_movement(direction: Vector2, delta: float):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-func fire():#Faz a bala sair
+func fire():
 	var bullet = bullet_path.instantiate()
 	bullet.damage = base_damage
 	bullet.dir = rotation
@@ -82,6 +82,11 @@ func fire():#Faz a bala sair
 	bullet.is_enemy_bullet = false
 	bullet.add_to_group("player_bullet")
 	bullet.configurar_colisao(3, 2)
+
+	# Adiciona a herança de velocidade da nave
+	if "velocity_inherited" in bullet:
+		bullet.velocity_inherited = velocity
+
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()
 	

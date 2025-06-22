@@ -15,6 +15,7 @@ var orbit_direction := 1.0
 var orbit_speed := 1.0
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
 var on_screen := false
+var velocity: Vector2 = Vector2.ZERO
 
 
 func _ready():
@@ -55,7 +56,8 @@ func _process(delta):
 	# Movimento normal de perseguição
 			var direction = to_player.normalized()
 			speed = min(speed + accell * delta, max_speed)
-			global_position += direction * speed * delta
+			velocity = direction * speed
+			global_position += velocity * delta
 	look_at(player.global_position)
 
 func _on_timer_timeout():
@@ -81,6 +83,10 @@ func shoot():
 		bullet.is_enemy_bullet = true
 		bullet.configurar_colisao(2, 1)  # Bala inimiga: está na camada 4, colide com camada 1 (player)
 		bullet.configurar_cor(Color(1, 1, 1))  # branco
+		
+		if "velocity_inherited" in bullet:
+			bullet.velocity_inherited = velocity
+			
 		get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: int):

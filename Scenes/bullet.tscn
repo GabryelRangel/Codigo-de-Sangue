@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_6afsh"]
 
 [node name="bullet" type="Area2D"]
-scale = Vector2(0.636447, 0.62194)
+scale = Vector2(1.2, 1.2)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_oduel")

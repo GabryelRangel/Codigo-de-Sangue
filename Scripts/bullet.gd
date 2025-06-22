@@ -1,8 +1,10 @@
 extends Area2D
 @export var damage: int = 30
-@export var speed: float = 1200
+@export var speed: float = 1500
 var dir: float
 var is_enemy_bullet: bool = false
+var velocity_inherited: Vector2 = Vector2.ZERO
+
 
 func _ready():
 	rotation = dir
@@ -13,9 +15,9 @@ func _ready():
 
 func _process(delta):
 	var direction = Vector2.RIGHT.rotated(rotation)
-	position += direction * speed * delta	
+	position += (direction * speed + velocity_inherited) * delta
 	if has_node("VisibilityNotifier2D") and not $VisibilityNotifier2D.is_on_screen():
-		print("Bala saiu de cena")
+		#print("Bala saiu de cena")
 		queue_free()
 
 
