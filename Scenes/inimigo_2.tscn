@@ -13,7 +13,7 @@ script = ExtResource("1_t3t4i")
 bala_curva_scene = ExtResource("2_kl66u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
+rotation = -1.5708
 scale = Vector2(1.8, 1.8)
 texture = ExtResource("3_kl66u")
 
@@ -29,8 +29,12 @@ wait_time = 1.731
 autostart = true
 
 [node name="Spawn_bala" type="Node2D" parent="."]
-position = Vector2(34, 0)
+position = Vector2(32, -11)
 scale = Vector2(-29.2989, -27.985)
+
+[node name="Spawn_bala2" type="Node2D" parent="."]
+position = Vector2(32, 10)
+scale = Vector2(858.426, 783.16)
 
 [node name="State Machine" type="Node" parent="."]
 script = ExtResource("3_44jpd")
