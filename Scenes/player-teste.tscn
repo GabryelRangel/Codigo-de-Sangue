@@ -5,25 +5,24 @@
 [ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://Audio/effects/teste.mp3" id="3_mlrf6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5jkt"]
-radius = 3.65948
+radius = 2.38387
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mlrf6"]
 radius = 6.73133
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-scale = Vector2(2.026, 2)
+scale = Vector2(2.5, 2.5)
 collision_mask = 2
 script = ExtResource("1_mlrf6")
 
 [node name="Nave" type="Sprite2D" parent="."]
 rotation = 1.5708
-scale = Vector2(0.743749, 0.703851)
 texture = ExtResource("2_mlrf6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5.96046e-08, -6.82121e-13)
 rotation = 1.5708
-scale = Vector2(1.77588, 3.14355)
+scale = Vector2(-3.91151, 6.82009)
 shape = SubResource("CircleShape2D_h5jkt")
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -45,7 +44,7 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hurtbox"]
 position = Vector2(0.444584, 0)
-scale = Vector2(3.72283, 5.06563)
+scale = Vector2(5.2, 7.076)
 polygon = PackedVector2Array(-2.86611, 2.2177, -2.86611, -2.2177, -0.119421, -1.20126, 2.8, 0, -0.119421, 1.20126)
 
 [node name="Xp_Attractor" type="Area2D" parent="." groups=["player"]]

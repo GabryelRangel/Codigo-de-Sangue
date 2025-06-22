@@ -1,28 +1,27 @@
 [gd_scene load_steps=6 format=3 uid="uid://caartsjmkx6sa"]
 
 [ext_resource type="Script" uid="uid://cqj71wb117glc" path="res://Scripts/inimigo_2.gd" id="1_t3t4i"]
-[ext_resource type="Texture2D" uid="uid://c0au1888ce6mi" path="res://Assets/tiny_ship3.png" id="2_44jpd"]
 [ext_resource type="PackedScene" uid="uid://crs1fdj7c7tcg" path="res://Scenes/bala_curva.tscn" id="2_kl66u"]
 [ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="3_44jpd"]
+[ext_resource type="Texture2D" uid="uid://bykj6q1p8dg50" path="res://Assets/Ships/Nose-Ship.png" id="3_kl66u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_44jpd"]
-radius = 37.0
+radius = 32.0156
 
 [node name="inimigo_2" type="Node2D" groups=["enemy"]]
 script = ExtResource("1_t3t4i")
 bala_curva_scene = ExtResource("2_kl66u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("2_44jpd")
+rotation = -1.5708
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("3_kl66u")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
 collision_layer = 2
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-3, 2)
 shape = SubResource("CircleShape2D_44jpd")
 
 [node name="Timer" type="Timer" parent="."]
@@ -30,8 +29,12 @@ wait_time = 1.731
 autostart = true
 
 [node name="Spawn_bala" type="Node2D" parent="."]
-position = Vector2(34, 0)
+position = Vector2(32, -11)
 scale = Vector2(-29.2989, -27.985)
+
+[node name="Spawn_bala2" type="Node2D" parent="."]
+position = Vector2(32, 10)
+scale = Vector2(858.426, 783.16)
 
 [node name="State Machine" type="Node" parent="."]
 script = ExtResource("3_44jpd")

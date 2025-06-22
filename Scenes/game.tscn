@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ddkl4s77ocfrx" path="res://Scripts/Arena1.gd" id="1_nnt18"]
 [ext_resource type="Texture2D" uid="uid://bq1qf3m7pxy5o" path="res://Assets/Fundo/Space Background (15).png" id="1_wowpa"]
 [ext_resource type="Texture2D" uid="uid://c56cga3s5yevj" path="res://Assets/Fundo/Space Background (16).png" id="2_h4fw4"]
-[ext_resource type="Texture2D" uid="uid://c1er1whv72bqx" path="res://Assets/Fundo/Space Background (18).png" id="2_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://b0h45h2xpl5d8" path="res://Assets/Space Background (21).png" id="4_1phco"]
 [ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
@@ -28,6 +28,7 @@ scroll_ignore_camera_zoom = true
 motion_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_wowpa")
 centered = false
 
@@ -35,26 +36,28 @@ centered = false
 motion_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer5"]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_h4fw4")
 centered = false
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(900, 900)
+motion_mirroring = Vector2(1200, 1200)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
-texture = ExtResource("2_ldgsr")
+texture = ExtResource("4_1phco")
 centered = false
 
 [node name="ParallaxLayer7" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.3, 0.3)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer7"]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_ldgsr")
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
-scale = Vector2(2, 1.996)
+scale = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 texture = ExtResource("2_h4fw4")
