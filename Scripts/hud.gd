@@ -25,8 +25,8 @@ func _on_restart_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scenes/game.tscn")	
 var health_tween: Tween = null
-func _on_player_health_changed(current: int, max: int) -> void:
-	health_bar.max_value = max
+func _on_player_health_changed(current: int, max_health: int) -> void:
+	health_bar.max_value = max_health
 
 	if health_tween:
 		health_tween.kill()  # Para qualquer animação anterior
