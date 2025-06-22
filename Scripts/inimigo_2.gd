@@ -15,7 +15,6 @@ func _ready():
 	call_deferred("_wait_for_player")
 	$Timer.wait_time = fire_interval
 	$Timer.start()
-	$Area2D.connect("area_entered", Callable(self, "_on_area_2d_area_entered"))
 	
 @export var follow_distance: float = 300.0
 

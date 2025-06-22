@@ -34,6 +34,7 @@ project/assembly_name="Código de Sangue"
 
 player=""
 enemy=""
+enemy_bullet=""
 
 [input]
 
