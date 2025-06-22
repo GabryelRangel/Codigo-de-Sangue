@@ -17565,10 +17565,11 @@ script = ExtResource("1_00u4r")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_left = -451.0
-offset_top = -452.0
-offset_right = 449.0
-offset_bottom = 448.0
+offset_left = -682.0
+offset_top = -698.0
+offset_right = 218.0
+offset_bottom = 202.0
+scale = Vector2(1.5, 1.5)
 theme_override_styles/panel = SubResource("StyleBoxTexture_anlgx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Panel"]
