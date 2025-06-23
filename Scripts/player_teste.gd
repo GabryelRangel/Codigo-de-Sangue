@@ -17,6 +17,11 @@ var dash_timer := 0.0
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var dash_cooldown_timer := 0.0
+#variaveis de debuff
+var debuff_multiplier := 1.0
+var debuff_timer := 0.0
+
+
 var is_invincible: bool = false
 var bullet_path = preload("res://Scenes/bullet.tscn")
 signal health_changed(current, max)
@@ -32,7 +37,11 @@ func _physics_process(delta):
 	input = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	player_movement(input, delta)
 	move_and_slide()
-
+	
+	if debuff_timer > 0:
+		debuff_timer -= delta
+	else:
+		debuff_multiplier = 1.0  # remove o debuff
 	# Dash cooldown
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -67,10 +76,9 @@ func player_movement(direction: Vector2, delta: float):
 		var alignment = velocity.normalized().dot(direction.normalized())
 		var braking_factor = clamp(1.0 - alignment, 0.0, 1.0)
 		var extra_friction = friction * 3.0 * braking_factor
-		velocity = velocity.move_toward(velocity, -extra_friction * delta)
-
-		if velocity.length() > max_speed:
-			velocity = velocity.normalized() * max_speed
+		velocity += direction.normalized() * acceleration * debuff_multiplier * delta
+	if velocity.length() > max_speed * debuff_multiplier:
+		velocity = velocity.normalized() * max_speed * debuff_multiplier
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
@@ -154,3 +162,8 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
 	upgrade_menu.hide()
 	get_tree().paused = false
+
+func apply_debuff(multiplier: float, duration: float): #aplica debuff de velocidade
+	debuff_multiplier = multiplier
+	debuff_timer = duration
+	print("Debuff aplicado! Velocidade reduzida em", multiplier)

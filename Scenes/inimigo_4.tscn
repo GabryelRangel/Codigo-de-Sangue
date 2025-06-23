@@ -14,7 +14,6 @@ laser_scene = ExtResource("2_8ctau")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5708
-scale = Vector2(1, 1)
 texture = ExtResource("3_dpb01")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
