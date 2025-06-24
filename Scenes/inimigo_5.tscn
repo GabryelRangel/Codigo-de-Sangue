@@ -1,18 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://cnmib5nlodsej"]
 
-[ext_resource type="Script" uid="uid://de57w3ixfridu" path="res://inimigo_5.gd" id="1_6ib0q"]
-[ext_resource type="Texture2D" uid="uid://b8vao7gpc4qs4" path="res://Assets/tiny_ship20.png" id="2_72ik8"]
+[ext_resource type="Script" uid="uid://de57w3ixfridu" path="res://Scripts/inimigo_5.gd" id="1_uxp6x"]
+[ext_resource type="Texture2D" uid="uid://b8vao7gpc4qs4" path="res://Assets/tiny_ship20.png" id="2_usxmg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8cry4"]
 size = Vector2(72, 92)
 
 [node name="inimigo5" type="Node2D"]
-script = ExtResource("1_6ib0q")
+script = ExtResource("1_uxp6x")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_72ik8")
+texture = ExtResource("2_usxmg")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy"]]
 collision_layer = 2

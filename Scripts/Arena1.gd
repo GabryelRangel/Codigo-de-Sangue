@@ -4,6 +4,7 @@ var enemy_1=preload("res://Scenes/inimigo_1.tscn")
 var enemy_2=preload("res://Scenes/inimigo_2.tscn")
 var enemy_3=preload("res://Scenes/inimigo_3.tscn")
 var enemy_4=preload("res://Scenes/inimigo_4.tscn")
+var enemy_5=preload("res://Scenes/inimigo_5.tscn")
 
 func _ready():
 	Global.node_creation_parent = self
@@ -20,3 +21,4 @@ func _on_spawner_inimigo_timeout():
 	Global.instance_node(enemy_3, enemy_postion, self)
 	var enemy_postion3 = Vector2(randf_range(-2700,2700), randf_range(-2700, 2700))
 	Global.instance_node(enemy_4, enemy_postion3, self)
+	Global.instance_node(enemy_5, enemy_postion3, self)

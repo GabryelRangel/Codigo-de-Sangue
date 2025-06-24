@@ -2,9 +2,9 @@ extends Node2D
 
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
 var cone_attack_scene = preload("res://Scenes/ataque_cone.tscn")
-@export var speed := 100.0
+@export var speed := 300.0
 @export var attack_range := 100.0 # quando estiver nessa distância, ataca
-@export var stop_distance := 160.0 # distância mínima, para não colar
+@export var stop_distance := 100.0
 @export var debuff_duration := 5.0
 @export var debuff_speed_multiplier := 0.1
 @export var attack_cooldown := 2.5
