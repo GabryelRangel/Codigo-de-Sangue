@@ -1,13 +1,13 @@
 extends Node2D
 
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
-
+var cone_attack_scene = preload("res://Scenes/ataque_cone.tscn")
 @export var speed := 100.0
 @export var attack_range := 100.0 # quando estiver nessa distância, ataca
 @export var stop_distance := 160.0 # distância mínima, para não colar
 @export var debuff_duration := 5.0
-@export var debuff_speed_multiplier := 0.4
-@export var attack_cooldown := 3.0
+@export var debuff_speed_multiplier := 0.1
+@export var attack_cooldown := 2.5
 
 var player: Node2D = null
 var current_health := 100
@@ -18,8 +18,6 @@ func _ready():
 	call_deferred("_find_player")
 	$cooldown_timer.wait_time = attack_cooldown
 	$cooldown_timer.one_shot = true
-	$DebuffCone.connect("body_entered", Callable(self, "_on_cone_body_entered"))
-	$DebuffCone.monitoring = false
 
 func _find_player():
 	await get_tree().create_timer(0.2).timeout
@@ -36,27 +34,33 @@ func _process(delta):
 	if is_attacking:
 		return
 
-	# Movimento apenas se estiver fora da distância ideal
 	if distance > stop_distance:
+		# Persegue o player
 		global_position += to_player.normalized() * speed * delta
+	elif distance <= attack_range:
+		if can_attack:
+			start_attack()
+	else:
+		pass
 
-	# Se dentro do alcance de ataque e pode atacar
-	elif distance <= attack_range and can_attack:
-		start_attack()
 
 func start_attack():
 	can_attack = false
 	is_attacking = true
 
-	$DebuffCone.monitoring = true
-	$DebuffCone.visible = true
-	await get_tree().create_timer(0.5).timeout
-
-	$DebuffCone.monitoring = false
-	$DebuffCone.visible = false
-
+	# Dispara dois cones nos dois pontos
+	disparar_cone_em($spawn_bala_1)
+	disparar_cone_em($spawn_bala_2)
 	$cooldown_timer.start()
+	await get_tree().create_timer(0.5).timeout
 	is_attacking = false
+
+func disparar_cone_em(spawn_point: Node2D):
+	var cone = cone_attack_scene.instantiate()
+	cone.global_position = spawn_point.global_position
+	cone.rotation = rotation
+	get_parent().add_child(cone)
+
 
 func _on_cooldown_timer_timeout():
 	can_attack = true
@@ -72,10 +76,6 @@ func die():
 	orb.global_position = global_position
 	get_parent().add_child(orb)
 	queue_free()
-
-func _on_cone_body_entered(body):
-	if body.name == "Player" and body.has_method("apply_debuff"):
-		body.apply_debuff(debuff_speed_multiplier, debuff_duration)
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	var bullet = area.get_parent()

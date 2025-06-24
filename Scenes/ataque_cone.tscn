@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://diggl1nsb3rd5"]
+
+[ext_resource type="Script" uid="uid://cxaj3m8lw8tou" path="res://Scripts/ataque_cone.gd" id="1_cyfjy"]
+[ext_resource type="Texture2D" uid="uid://d01ldn08xc04x" path="res://Assets/raiozinho.png" id="2_iyuk3"]
+
+[node name="AtaqueCone" type="Area2D"]
+script = ExtResource("1_cyfjy")
+
+[node name="raios" type="Sprite2D" parent="."]
+position = Vector2(56, 4.76837e-07)
+rotation = 1.5708
+scale = Vector2(0.150486, 0.200773)
+texture = ExtResource("2_iyuk3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(86, 217)
+rotation = -1.5708
+polygon = PackedVector2Array(200, -85, 175, 36, 263, 36, 230, -85)
