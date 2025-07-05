@@ -1,9 +1,9 @@
 extends CharacterBody2D
 #Variáveis
 @export var speed = 800
-const acceleration = 1200.0
+const acceleration = 400.0  # Reduzido para impulsos menores
 const max_speed = 3000.0
-const friction = 1000.0
+const friction = 50.0  # MUITO baixo para deslizar
 var input = Vector2.ZERO
 var current_xp := 0
 var xp_to_next_level := 100
@@ -11,7 +11,7 @@ var level := 1
 @export var max_health := 100
 var current_health := max_health
 @export var dash_speed: float = 1000.0 
-@export var dash_duration: float = 0.2 
+@export var dash_duration: float = 0.5 
 @export var dash_cooldown: float = 2.0
 var dash_timer := 0.0
 var is_dashing := false
@@ -20,23 +20,57 @@ var dash_cooldown_timer := 0.0
 #variaveis de debuff
 var debuff_multiplier := 1.0
 var debuff_timer := 0.0
-
+@export var base_speed = 300  # Impulso base menor
+@export var accel_speed = 800  # Impulso com Shift
+@onready var propulsor = $Propulsor  # o AnimatedSprite2D
+var acelerando := false
+var thruster_estado := "desligado" # Pode ser: "desligado", "ligando", "ativo"
 
 var is_invincible: bool = false
 var bullet_path = preload("res://Scenes/bullet.tscn")
 signal health_changed(current, max)
 @export var base_damage := 35
 
+# Adicione essas variáveis para o efeito de piscar
+@export var blink_interval: float = 0.1  # Intervalo entre piscadas
+var blink_timer: float = 0.0
+var player_visible: bool = true
+
 func _ready():
 	Global.player = self
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
+	# Remove ou comente esta linha se já está conectada no editor:
+	# propulsor.animation_finished.connect(Callable(self, "_on_propulsor_animation_finished"))
 	emit_signal("health_changed", current_health, max_health)
 
 func _physics_process(delta):
 	look_at(get_global_mouse_position())
 	input = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+	# Detecta se começou ou parou de acelerar com Shift
+	var shift_pressed = Input.is_action_pressed("ui_shift")
+
+	if shift_pressed and not acelerando:
+		acelerando = true
+		start_thruster()
+	elif not shift_pressed and acelerando:
+		acelerando = false
+		stop_thruster()
+
 	player_movement(input, delta)
 	move_and_slide()
+	
+	# Gerencia o efeito de piscar durante invencibilidade
+	if is_invincible:
+		blink_timer += delta
+		if blink_timer >= blink_interval:
+			player_visible = !player_visible
+			modulate.a = 0.3 if not player_visible else 1.0  # Semi-transparente ou opaco
+			blink_timer = 0.0
+	else:
+		# Restaura visibilidade normal quando não está invencível
+		modulate.a = 1.0
+		player_visible = true
 	
 	if debuff_timer > 0:
 		debuff_timer -= delta
@@ -51,6 +85,9 @@ func _physics_process(delta):
 		if dash_timer <= 0:
 			is_dashing = false
 			is_invincible = false
+			# Restaura visibilidade normal quando sai da invencibilidade
+			modulate.a = 1.0
+			visible = true
 	else:
 		if Input.is_action_just_pressed("right_click") and dash_cooldown_timer <= 0:
 			is_dashing = true
@@ -63,24 +100,36 @@ func _physics_process(delta):
 		fire()
 		look_at(get_global_mouse_position())
 
-func get_input():
-	input.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	input.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	return input.normalized()
+func get_input() -> Vector2:
+	var dir = Vector2.ZERO
+	dir.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	dir.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	return dir.normalized() if dir.length() > 0 else Vector2.ZERO
 	
 func player_movement(direction: Vector2, delta: float):
 	if is_dashing:
 		velocity = dash_direction * dash_speed
 	elif direction != Vector2.ZERO:
-		velocity += direction.normalized() * acceleration * delta
-		var alignment = velocity.normalized().dot(direction.normalized())
-		var braking_factor = clamp(1.0 - alignment, 0.0, 1.0)
-		var extra_friction = friction * 3.0 * braking_factor
-		velocity += direction.normalized() * acceleration * debuff_multiplier * delta
+		var impulse_strength = base_speed
+		
+		# Se está acelerando (Shift pressionado), usa impulso maior
+		if acelerando:
+			impulse_strength = accel_speed
+		
+		# Aplica impulso na direção do movimento (ao invés de acelerar continuamente)
+		velocity += direction.normalized() * impulse_strength * delta
+		
+		# Limita pela velocidade máxima
+		var max_vel = max_speed * debuff_multiplier
+		if velocity.length() > max_vel:
+			velocity = velocity.normalized() * max_vel
+	else:
+		# Atrito MUITO baixo quando não há input - a nave continua deslizando
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
+	# Limita a velocidade máxima global
 	if velocity.length() > max_speed * debuff_multiplier:
 		velocity = velocity.normalized() * max_speed * debuff_multiplier
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 func fire():
 	var bullet = bullet_path.instantiate()
@@ -167,3 +216,37 @@ func apply_debuff(multiplier: float, duration: float): #aplica debuff de velocid
 	debuff_multiplier = multiplier
 	debuff_timer = duration
 	print("Debuff aplicado! Velocidade reduzida em", multiplier)
+
+func start_thruster():
+	if thruster_estado != "desligado":
+		return  # já ligando ou ativo
+
+	thruster_estado = "ligando"
+	propulsor.visible = true
+	propulsor.play("ligando")
+	print("Tocando 'ligando'")
+
+func stop_thruster():
+	# Se está no meio da animação "ligando", apenas marca para parar
+	if thruster_estado == "ligando":
+		acelerando = false  # Garante que pare quando a animação terminar
+		return
+	
+	thruster_estado = "desligado"
+	if propulsor.is_playing():
+		propulsor.stop()
+	propulsor.visible = false
+	print("Propulsor desligado")
+
+func _on_propulsor_animation_finished():
+	print("Animação terminou. Estado atual:", thruster_estado, "Acelerando:", acelerando)
+	
+	# Se terminou a animação "ligando" e ainda está acelerando, muda para "ativo"
+	if thruster_estado == "ligando" and acelerando:
+		print("Mudando para 'ativo'")
+		thruster_estado = "ativo"
+		propulsor.play("ativo")
+	# Se terminou qualquer animação e não está mais acelerando, para tudo
+	elif not acelerando:
+		print("Não está mais acelerando, parando")
+		stop_thruster()

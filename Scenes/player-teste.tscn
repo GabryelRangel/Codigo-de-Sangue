@@ -1,8 +1,93 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmnwa5qvdh4iu"]
+[gd_scene load_steps=19 format=3 uid="uid://cmnwa5qvdh4iu"]
 
 [ext_resource type="Script" uid="uid://dird5t3iygpoo" path="res://Scripts/player_teste.gd" id="1_mlrf6"]
 [ext_resource type="Texture2D" uid="uid://s0sjqi0rc766" path="res://Assets/Ships/Sh4rk.png" id="2_mlrf6"]
 [ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://Audio/effects/teste.mp3" id="3_mlrf6"]
+[ext_resource type="Texture2D" uid="uid://eww8mj14veq" path="res://Assets/Ships/Foguete/Propulsor-2.png" id="3_no3mc"]
+[ext_resource type="Texture2D" uid="uid://0eedu82j78th" path="res://Assets/Ships/Foguete/Propulsor.png" id="4_t2snl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ekch"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(0, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2ryu"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(13, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gkkg"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(26, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kq1k1"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(39, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk8st"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(52, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1e63"]
+atlas = ExtResource("3_no3mc")
+region = Rect2(65, 0, 13, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18l4g"]
+atlas = ExtResource("4_t2snl")
+region = Rect2(0, 0, 12, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5y1p"]
+atlas = ExtResource("4_t2snl")
+region = Rect2(13, 0, 12, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjryo"]
+atlas = ExtResource("4_t2snl")
+region = Rect2(26, 0, 12, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcepa"]
+atlas = ExtResource("4_t2snl")
+region = Rect2(39, 0, 12, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4wxe7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ekch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2ryu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gkkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kq1k1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk8st")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1e63")
+}],
+"loop": true,
+"name": &"ativo",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18l4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5y1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjryo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcepa")
+}],
+"loop": false,
+"name": &"ligando",
+"speed": 10.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5jkt"]
 radius = 2.38387
@@ -18,6 +103,13 @@ script = ExtResource("1_mlrf6")
 [node name="Nave" type="Sprite2D" parent="."]
 rotation = 1.5708
 texture = ExtResource("2_mlrf6")
+
+[node name="Propulsor" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-27.6, 1.17776e-06)
+rotation = -1.57079
+sprite_frames = SubResource("SpriteFrames_4wxe7")
+animation = &"ligando"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5.96046e-08, -6.82121e-13)
@@ -53,5 +145,6 @@ polygon = PackedVector2Array(-2.86611, 2.2177, -2.86611, -2.2177, -0.119421, -1.
 scale = Vector2(5, 5)
 shape = SubResource("CircleShape2D_mlrf6")
 
+[connection signal="animation_finished" from="Propulsor" to="." method="_on_propulsor_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="area_entered" from="Xp_Attractor" to="." method="_on_xp_magnet_area_entered"]
