@@ -1,6 +1,8 @@
 extends Area2D
 
+var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
+@export var damage: int = 25
 @export var turn_speed: float = 3.0  # maior = curva mais rápida
 var target: Node2D
 
@@ -33,4 +35,10 @@ func _on_area_entered(area: Area2D) -> void:
 		var player = area.get_parent()
 		if player.has_method("take_damage"):
 			player.take_damage(20)
+
+		# Instancia explosão igual ao inimigo 3
+		var explosion = explosion_scene.instantiate()
+		explosion.global_position = global_position
+		get_tree().get_current_scene().add_child(explosion)
+
 		queue_free()

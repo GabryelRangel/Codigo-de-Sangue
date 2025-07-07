@@ -21,5 +21,3 @@ func _on_body_entered(body):
 	if body.name == "Player":
 		if body.has_method("apply_debuff"):
 			body.apply_debuff(debuff_multiplier, debuff_duration)
-		if body.has_method("take_damage"):
-			body.take_damage(5)

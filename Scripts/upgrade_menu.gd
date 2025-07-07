@@ -2,25 +2,44 @@ extends CanvasLayer
 
 signal upgrade_selected(upgrade_name: String)
 
+var all_upgrades := [
+	"Escudo Sangrento",
+	"Mais Vida",
+	"Mais XP",
+	"Mais Dano",
+]
+
 func _ready():
 	hide()
-	$VBoxContainer/Upgrade1.pressed.connect(func(): _on_upgrade_chosen("Mais Dano"))
-	$VBoxContainer/Upgrade2.pressed.connect(func(): _on_upgrade_chosen("Mais Vida"))
-	$VBoxContainer/Upgrade3.pressed.connect(func(): _on_upgrade_chosen("Mais XP"))
+
+func mostrar_opcoes_upgrade():
+	randomize()
+
+	var upgrades = all_upgrades.duplicate()
+	upgrades.shuffle()
+	var selecionados = upgrades.slice(0, 3)
+
+	var botoes = [
+		$VBoxContainer/Upgrade1,
+		$VBoxContainer/Upgrade2,
+		$VBoxContainer/Upgrade3
+	]
+
+	for i in range(3):
+		botoes[i].text = selecionados[i]
+
+		# Desconecta todos os Callables conectados ao "pressed"
+		for connection in botoes[i].get_signal_connection_list("pressed"):
+			botoes[i].disconnect("pressed", connection["callable"])
+
+		# Conecta um novo callback com a opção sorteada
+		var upgrade_nome = selecionados[i]  # Captura corretamente o valor para cada botão
+		botoes[i].pressed.connect(func(): _on_upgrade_chosen(upgrade_nome))
+
+	show()
+	get_tree().paused = true
 
 func _on_upgrade_chosen(upgrade_name):
 	emit_signal("upgrade_selected", upgrade_name)
 	hide()
 	get_tree().paused = false
-
-
-func _on_upgrade_1_pressed() -> void:
-	emit_signal("upgrade_selected", "Mais Dano")
-
-
-func _on_upgrade_2_pressed() -> void:
-	emit_signal("upgrade_selected", "Mais Vida")
-
-
-func _on_upgrade_3_pressed() -> void:
-	emit_signal("upgrade_selected", "Mais XP")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cf23510q5u7mm"]
+[gd_scene load_steps=3 format=3 uid="uid://cf23510q5u7mm"]
 
 [ext_resource type="Script" uid="uid://ci2nq18sqyl6n" path="res://Scripts/upgrade_menu.gd" id="1_ltp0x"]
+[ext_resource type="FontFile" uid="uid://b243ui7ym32qo" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_11363"]
 
 [node name="TelaUpgrade" type="CanvasLayer"]
 process_mode = 3
@@ -12,10 +13,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -153.0
-offset_top = -137.0
-offset_right = 153.0
-offset_bottom = 137.0
+offset_left = -250.0
+offset_top = -400.0
+offset_right = 250.0
+offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -34,24 +35,28 @@ grow_vertical = 2
 
 [node name="Upgrade1" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Mais Dano"
+text = "1"
 
 [node name="Upgrade2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Mais Vida"
+text = "2"
 
 [node name="Upgrade3" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Mais XP"
+theme_override_fonts/font = ExtResource("2_11363")
+text = "3"
 
 [node name="Label" type="Label" parent="."]
-offset_left = 395.0
-offset_top = 331.0
-offset_right = 511.0
-offset_bottom = 358.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -127.0
+offset_top = 231.0
+offset_right = 113.0
+offset_bottom = 258.0
+grow_horizontal = 2
+scale = Vector2(1.2, 1.2)
+theme_override_fonts/font = ExtResource("2_11363")
 text = "Subiu de nível!"
 horizontal_alignment = 1
-
-[connection signal="pressed" from="VBoxContainer/Upgrade1" to="." method="_on_upgrade_1_pressed"]
-[connection signal="pressed" from="VBoxContainer/Upgrade2" to="." method="_on_upgrade_2_pressed"]
-[connection signal="pressed" from="VBoxContainer/Upgrade3" to="." method="_on_upgrade_3_pressed"]
+uppercase = true

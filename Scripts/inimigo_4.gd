@@ -5,6 +5,7 @@ var xp_orb_scene = preload("res://Scenes/xp.tscn")
 @export var fire_interval: float = 2.0
 @export var laser_scene: PackedScene
 @export var max_health := 80
+@export var damage: int = 25
 # armazenar a direção congelada pro tiro
 var laser_direcao_salva := Vector2.ZERO
 var laser_origem_salva := Vector2.ZERO

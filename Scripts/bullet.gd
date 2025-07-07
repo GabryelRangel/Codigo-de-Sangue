@@ -1,5 +1,5 @@
 extends Area2D
-@export var damage: int = 30
+@export var damage: int = 25
 @export var speed: float = 1500
 var dir: float
 var is_enemy_bullet: bool = false

@@ -20,6 +20,7 @@ var dash_cooldown_timer := 0.0
 #variaveis de debuff
 var debuff_multiplier := 1.0
 var debuff_timer := 0.0
+var shield_hp := 0  # HP do powerup de escudo (0 = sem escudo)
 @export var base_speed = 300  # Impulso base menor
 @export var accel_speed = 800  # Impulso com Shift
 @onready var propulsor = $Propulsor  # o AnimatedSprite2D
@@ -153,17 +154,26 @@ func _on_Hurtbox_area_entered(body):#Ativa quando o player é atingido por balas
 		return
 	if body.is_in_group("enemy_bullet"):
 		print("Acertado por bala inimiga!")
-		take_damage(30)
+		take_damage(body.damage)
 		body.queue_free()
 
-func take_damage(amount: int):#Função que processa o dano
-	current_health -= amount
-	current_health = max(current_health, 0)
-	print("Player tomou dano! Vida restante:", current_health)
-	emit_signal("health_changed", current_health, max_health)
-	if current_health <= 0:
-		die()
-		
+func take_damage(amount: int):
+	if shield_hp > 0:
+		shield_hp -= amount
+		if shield_hp <= 0:
+			shield_hp = 0
+			if has_node("VisualEscudo"):
+				get_node("VisualEscudo").queue_free()
+		return  # Dano absorvido pelo escudo, não tira vida
+
+	if amount > 0:
+		current_health -= amount
+		current_health = max(current_health, 0)
+		print("Player tomou dano! Vida restante:", current_health)
+		emit_signal("health_changed", current_health, max_health)
+		if current_health <= 0:
+			die()
+
 func gain_xp(amount: int):
 	current_xp += amount
 	print("XP atual: ", current_xp)
@@ -177,7 +187,8 @@ func level_up():
 	print("Subiu para o nível ", level)
 	get_tree().paused = true
 	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
-	upgrade_menu.show()
+	upgrade_menu.mostrar_opcoes_upgrade()
+
 
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
@@ -195,6 +206,9 @@ func _on_xp_magnet_area_entered(area: Area2D) -> void:
 
 func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 	match upgrade_name:
+		"Escudo Sangrento":
+			activate_shield(100)
+		
 		"Mais Dano":
 			base_damage += 15
 			print("Upgrade: Mais Dano. Novo dano:", base_damage)
@@ -250,3 +264,13 @@ func _on_propulsor_animation_finished():
 	elif not acelerando:
 		print("Não está mais acelerando, parando")
 		stop_thruster()
+#Upgrades abaixo
+func activate_shield(amount: int):
+	print("Escudo")
+	if not has_node("VisualEscudo"):
+		print("Escudo 2")
+		var escudo = preload("res://Scenes/PowerUps/VisualEscudo.tscn").instantiate()
+		escudo.name = "VisualEscudo"
+		add_child(escudo)
+		escudo.position = Vector2.ZERO
+		escudo.max_hp = amount

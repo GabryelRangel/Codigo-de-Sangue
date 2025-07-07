@@ -6,6 +6,7 @@ var xp_orb_scene = preload("res://Scenes/xp.tscn")
 @export var max_health: int = 100
 @export var accell: float = 100
 @export var max_speed: float = 400
+@export var damage: int = 25
 
 var current_health: int
 var player: Node2D = null

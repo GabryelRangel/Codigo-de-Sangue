@@ -8,6 +8,7 @@ var cone_attack_scene = preload("res://Scenes/ataque_cone.tscn")
 @export var debuff_duration := 5.0
 @export var debuff_speed_multiplier := 0.1
 @export var attack_cooldown := 2.5
+@export var damage: int = 5
 
 var player: Node2D = null
 var current_health := 100

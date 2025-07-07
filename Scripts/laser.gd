@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var damage: int = 20
+@export var damage: int = 30
 @export var length: float = 2000
 
 var direction := Vector2.RIGHT

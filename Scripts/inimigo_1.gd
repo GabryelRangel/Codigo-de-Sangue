@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var damage: int = 25
 @export var speed: float = 100.0
 @export var bullet_scene: PackedScene
 @export var fire_interval: float = 1.5
