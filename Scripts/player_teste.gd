@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed = 800
 const acceleration = 400.0  # Reduzido para impulsos menores
 const max_speed = 3000.0
-const friction = 50.0  # MUITO baixo para deslizar
+const friction = 20.0  # Atrito ainda mais baixo para desacelerar menos
 var input = Vector2.ZERO
 var current_xp := 0
 var xp_to_next_level := 100
@@ -21,8 +21,8 @@ var dash_cooldown_timer := 0.0
 var debuff_multiplier := 1.0
 var debuff_timer := 0.0
 var shield_hp := 0  # HP do powerup de escudo (0 = sem escudo)
-@export var base_speed = 300  # Impulso base menor
-@export var accel_speed = 800  # Impulso com Shift
+@export var base_speed = 600  # Impulso base maior (era 300)
+@export var accel_speed = 1200  # Impulso com Shift maior (era 800)
 @onready var propulsor = $Propulsor  # o AnimatedSprite2D
 var acelerando := false
 var thruster_estado := "desligado" # Pode ser: "desligado", "ligando", "ativo"
@@ -36,6 +36,22 @@ signal health_changed(current, max)
 @export var blink_interval: float = 0.1  # Intervalo entre piscadas
 var blink_timer: float = 0.0
 var player_visible: bool = true
+
+# Variáveis para dano por velocidade
+@export var velocity_damage_threshold: float = 800.0  # Velocidade mínima para causar dano
+@export var velocity_damage_multiplier: float = 0.02  # Multiplicador do dano por velocidade
+var collision_cooldown: float = 0.0
+@export var collision_cooldown_duration: float = 0.5  # Cooldown entre colisões
+# Variáveis para controle vetorial avançado
+@export var max_directional_multiplier: float = 3.0  # Multiplicador máximo para mudanças de direção
+@export var min_velocity_for_vectorial: float = 200.0  # Velocidade mínima para ativar controle vetorial
+var previous_velocity: Vector2 = Vector2.ZERO  # Para detectar colisões melhor
+
+# Variáveis para efeito de piscar ao tomar dano
+var damage_flash_timer: float = 0.0
+@export var damage_flash_duration: float = 0.15  # Duração menor (era 0.3)
+@export var damage_flash_interval: float = 0.075  # Intervalo maior (era 0.05)
+var is_damage_flashing: bool = false
 
 func _ready():
 	Global.player = self
@@ -59,7 +75,18 @@ func _physics_process(delta):
 		stop_thruster()
 
 	player_movement(input, delta)
+	
+	# Armazena velocidade antes do move_and_slide para detectar colisões
+	previous_velocity = velocity
+	
 	move_and_slide()
+	
+	# Verifica colisão com StaticBody2D após move_and_slide
+	check_collision_damage()
+	
+	# Gerencia cooldown de colisão
+	if collision_cooldown > 0:
+		collision_cooldown -= delta
 	
 	# Gerencia o efeito de piscar durante invencibilidade
 	if is_invincible:
@@ -68,9 +95,29 @@ func _physics_process(delta):
 			player_visible = !player_visible
 			modulate.a = 0.3 if not player_visible else 1.0  # Semi-transparente ou opaco
 			blink_timer = 0.0
+	elif is_damage_flashing:
+		# Efeito de piscar ao tomar dano
+		damage_flash_timer += delta
+		blink_timer += delta
+		
+		if blink_timer >= damage_flash_interval:
+			player_visible = !player_visible
+			if player_visible:
+				modulate = Color(1, 1, 1, 1)  # Cor normal
+			else:
+				modulate = Color(2, 2, 2, 1)  # Mais branco/brilhante
+			blink_timer = 0.0
+			# Remove o print para evitar spam
+			
+		if damage_flash_timer >= damage_flash_duration:
+			damage_flash_timer = 0.0
+			is_damage_flashing = false
+			modulate = Color(1, 1, 1, 1)  # Restaura cor normal
+			# Remove o print para evitar spam
 	else:
-		# Restaura visibilidade normal quando não está invencível
+		# Restaura visibilidade normal quando não está invencível nem piscando
 		modulate.a = 1.0
+		modulate = Color(1, 1, 1, 1)
 		player_visible = true
 	
 	if debuff_timer > 0:
@@ -111,21 +158,47 @@ func player_movement(direction: Vector2, delta: float):
 	if is_dashing:
 		velocity = dash_direction * dash_speed
 	elif direction != Vector2.ZERO:
-		var impulse_strength = base_speed
+		var base_impulse = base_speed
 		
 		# Se está acelerando (Shift pressionado), usa impulso maior
 		if acelerando:
-			impulse_strength = accel_speed
+			base_impulse = accel_speed
 		
-		# Aplica impulso na direção do movimento (ao invés de acelerar continuamente)
-		velocity += direction.normalized() * impulse_strength * delta
+		# Controle vetorial: calcula multiplicador baseado na direção
+		var directional_multiplier = 1.0
+		var current_speed = velocity.length()
+		
+		# Só aplica controle vetorial se a nave já está se movendo com velocidade significativa
+		if current_speed > min_velocity_for_vectorial:
+			# Normaliza a direção atual da velocidade
+			var current_direction = velocity.normalized()
+			var input_direction = direction.normalized()
+			
+			# Calcula o ângulo entre a direção atual e o input (dot product = cos do ângulo)
+			var dot_product = current_direction.dot(input_direction)
+			
+			# dot_product vai de 1 (mesma direção) a -1 (direção oposta)
+			# Converte para multiplicador: quanto mais oposta, maior o multiplicador
+			# dot = 1 (0°) -> multiplier = 1.0 (sem bonus)
+			# dot = 0 (90°) -> multiplier = 2.0 (bonus médio)  
+			# dot = -1 (180°) -> multiplier = 3.0 (bonus máximo)
+			directional_multiplier = 1.0 + (1.0 - dot_product) * (max_directional_multiplier - 1.0) / 2.0
+			
+			# Debug para ver o sistema funcionando
+			if current_speed > 500:  # Só mostra debug em velocidades altas
+				var angle_degrees = rad_to_deg(acos(clamp(dot_product, -1.0, 1.0)))
+				print("Velocidade: ", int(current_speed), " Ângulo: ", int(angle_degrees), "° Multiplicador: ", "%.2f" % directional_multiplier)
+		
+		# Aplica impulso com multiplicador direcional
+		var final_impulse = base_impulse * directional_multiplier
+		velocity += direction.normalized() * final_impulse * delta
 		
 		# Limita pela velocidade máxima
 		var max_vel = max_speed * debuff_multiplier
 		if velocity.length() > max_vel:
 			velocity = velocity.normalized() * max_vel
 	else:
-		# Atrito MUITO baixo quando não há input - a nave continua deslizando
+		# Atrito quando não há input - a nave continua deslizando
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 	# Limita a velocidade máxima global
@@ -152,18 +225,52 @@ func _on_Hurtbox_area_entered(body):#Ativa quando o player é atingido por balas
 	if is_invincible:
 		print("Dano ignorado: invencível!")
 		return
+	
+	# Ignora balas do próprio player silenciosamente
+	if body.is_in_group("player_bullet"):
+		return
+	
+	print("Hurtbox atingido!")
+	print("Algo entrou:", body.name, " Grupos do pai:", body.get_groups())
+	
 	if body.is_in_group("enemy_bullet"):
 		print("Acertado por bala inimiga!")
 		take_damage(body.damage)
 		body.queue_free()
+	elif body.is_in_group("enemy") and collision_cooldown <= 0:
+		# Dano por colisão com inimigo baseado na velocidade
+		var current_velocity = velocity.length()
+		if current_velocity > velocity_damage_threshold:
+			var damage_to_player = int(current_velocity * velocity_damage_multiplier)
+			var damage_to_enemy = int(current_velocity * velocity_damage_multiplier * 0.5)  # Inimigo toma menos dano
+			
+			print("Colisão de alta velocidade! Velocidade: ", current_velocity)
+			print("Dano ao player: ", damage_to_player, " Dano ao inimigo: ", damage_to_enemy)
+			
+			# Aplica dano ao player
+			take_damage(damage_to_player)
+			
+			# Aplica dano ao inimigo se ele tem a função
+			if body.has_method("take_damage"):
+				body.take_damage(damage_to_enemy)
+			
+			collision_cooldown = collision_cooldown_duration
 
 func take_damage(amount: int):
+	print("take_damage chamado com amount:", amount)
+	
 	if shield_hp > 0:
 		shield_hp -= amount
+		print("Escudo absorveu dano. HP do escudo:", shield_hp)
 		if shield_hp <= 0:
 			shield_hp = 0
 			if has_node("VisualEscudo"):
 				get_node("VisualEscudo").queue_free()
+		# Mesmo com escudo, mostra o efeito de piscar
+		is_damage_flashing = true
+		damage_flash_timer = 0.0
+		blink_timer = 0.0
+		print("Ativando efeito de piscar (escudo)")
 		return  # Dano absorvido pelo escudo, não tira vida
 
 	if amount > 0:
@@ -171,6 +278,13 @@ func take_damage(amount: int):
 		current_health = max(current_health, 0)
 		print("Player tomou dano! Vida restante:", current_health)
 		emit_signal("health_changed", current_health, max_health)
+		
+		# Ativa o efeito de piscar ao tomar dano
+		is_damage_flashing = true
+		damage_flash_timer = 0.0
+		blink_timer = 0.0
+		print("Ativando efeito de piscar (vida)")
+		
 		if current_health <= 0:
 			die()
 
@@ -274,3 +388,34 @@ func activate_shield(amount: int):
 		add_child(escudo)
 		escudo.position = Vector2.ZERO
 		escudo.max_hp = amount
+
+func check_collision_damage():
+	# Verifica se houve colisão e se a velocidade é alta o suficiente
+	if get_slide_collision_count() > 0 and collision_cooldown <= 0:
+		# Use a velocidade anterior (antes do slide) para detecção mais precisa
+		var current_velocity = previous_velocity.length()
+		
+		# Só faz debug se a velocidade for significativa
+		if current_velocity > 50:  # Evita spam de debug
+			print("Colisão detectada! Velocidade:", current_velocity, "Threshold:", velocity_damage_threshold)
+		
+		if current_velocity > velocity_damage_threshold:
+			var damage_to_player = int(current_velocity * velocity_damage_multiplier)
+			
+			# Pega informações da colisão para debug
+			var collision = get_slide_collision(0)
+			if collision:
+				print("Colidiu com:", collision.get_collider().name if collision.get_collider() else "Desconhecido")
+				print("Posição da colisão:", collision.get_position())
+				print("Normal da colisão:", collision.get_normal())
+			
+			print("Colisão de alta velocidade com parede! Velocidade: ", current_velocity)
+			print("Dano ao player: ", damage_to_player)
+			
+			# Aplica dano ao player
+			take_damage(damage_to_player)
+			
+			collision_cooldown = collision_cooldown_duration
+			
+			# Reduz velocidade após colisão para simular impacto
+			velocity = velocity * 0.3  # Reduz velocidade para 30% após colisão
