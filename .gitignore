@@ -1,6 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-audio/effects/teste.mp3.import
-audio/effects/teste.mp3.import
-audio/effects/teste.mp3.import
+
+# Audio effects (ignora todos os arquivos na pasta)
+Audio/effects/
+audio/effects/
+
+# Se quiser ignorar apenas os .import files
+*.import
