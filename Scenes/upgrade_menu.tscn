@@ -1,7 +1,71 @@
-[gd_scene load_steps=3 format=3 uid="uid://cf23510q5u7mm"]
+[gd_scene load_steps=12 format=3 uid="uid://cf23510q5u7mm"]
 
 [ext_resource type="Script" uid="uid://ci2nq18sqyl6n" path="res://Scripts/upgrade_menu.gd" id="1_ltp0x"]
 [ext_resource type="FontFile" uid="uid://b243ui7ym32qo" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_11363"]
+
+[sub_resource type="Theme" id="Theme_11363"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gn5s"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="Theme" id="Theme_f5dmy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhh40"]
+bg_color = Color(0.301961, 0.301961, 0.301961, 1)
+border_color = Color(1, 1, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hr16"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.701961, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpopj"]
+bg_color = Color(0.301961, 0.301961, 0.301961, 1)
+border_color = Color(1, 1, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpwqm"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.701961, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4egn"]
+bg_color = Color(0.301961, 0.301961, 0.301961, 1)
+border_color = Color(1, 1, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1lbs"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.701961, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="TelaUpgrade" type="CanvasLayer"]
 process_mode = 3
@@ -14,46 +78,104 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -250.0
-offset_top = -400.0
+offset_top = -544.0
 offset_right = 250.0
-offset_bottom = 400.0
+offset_bottom = 566.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_11363")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6gn5s")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -52.0
-offset_top = -12.0
-offset_right = 60.0
-offset_bottom = 20.0
+offset_left = -71.0
+offset_top = -300.0
+offset_right = 95.0
+offset_bottom = 272.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 200
 
-[node name="Upgrade1" type="Button" parent="VBoxContainer"]
+[node name="Caixa1" type="VBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Upgrade1" type="Button" parent="Panel/VBoxContainer/Caixa1"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme = SubResource("Theme_f5dmy")
+theme_override_fonts/font = ExtResource("2_11363")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lhh40")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2hr16")
 text = "1"
 
-[node name="Upgrade2" type="Button" parent="VBoxContainer"]
+[node name="Desc1" type="Label" parent="Panel/VBoxContainer/Caixa1"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "2"
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("2_11363")
+text = "So and so"
+horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="Upgrade3" type="Button" parent="VBoxContainer"]
+[node name="Caixa2" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Upgrade2" type="Button" parent="Panel/VBoxContainer/Caixa2"]
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_11363")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lpopj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mpwqm")
+text = "2"
+
+[node name="Desc2" type="Label" parent="Panel/VBoxContainer/Caixa2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("2_11363")
+text = "This and that"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Caixa3" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Upgrade3" type="Button" parent="Panel/VBoxContainer/Caixa3"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_11363")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v4egn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d1lbs")
 text = "3"
 
-[node name="Label" type="Label" parent="."]
+[node name="Desc3" type="Label" parent="Panel/VBoxContainer/Caixa3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("2_11363")
+text = "Moreover, therefore"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -127.0
-offset_top = 231.0
+offset_top = 31.0
 offset_right = 113.0
-offset_bottom = 258.0
+offset_bottom = 58.0
 grow_horizontal = 2
 scale = Vector2(1.2, 1.2)
 theme_override_fonts/font = ExtResource("2_11363")

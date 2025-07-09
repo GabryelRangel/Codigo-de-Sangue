@@ -1,5 +1,5 @@
 extends Area2D
-
+var atingiu_player_diretamente := false
 var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
 @export var damage: int = 25
@@ -32,9 +32,11 @@ func _on_area_entered(area: Area2D) -> void:
 		var player = area.get_parent()
 		if player.has_method("take_damage"):
 			player.take_damage(damage)
-
+		
+		atingiu_player_diretamente = true  # ← Marca que foi atingido diretamente
 		explodir()
 		queue_free()
+
 
 func _on_timer_timeout():
 	print("Tempo acabou: bala vai explodir")
@@ -46,8 +48,8 @@ func explodir():
 	explosion.global_position = global_position
 	get_tree().get_current_scene().add_child(explosion)
 
-	# Verifica se o player está dentro do raio de explosão
-	if is_instance_valid(target):
+	# Só aplica dano de explosão se não foi dano direto
+	if not atingiu_player_diretamente and is_instance_valid(target):
 		var distancia = target.global_position.distance_to(global_position)
 		if distancia <= explosion_radius:
 			print("Player atingido pela explosão!")

@@ -73,7 +73,10 @@ func die():
 	var orb = xp_orb_scene.instantiate()
 	orb.global_position = global_position
 	get_parent().add_child(orb)
-	var chance_total: float = float(5.0 + player.bonus_drop_vida * 100.0)
+	var chance_total := 5.0
+	if is_instance_valid(player):
+		chance_total += player.bonus_drop_vida * 100.0
+
 	if randf() * 100.0 < chance_total:
 		var life_orb = preload("res://Scenes/hp.tscn").instantiate()
 		life_orb.global_position = global_position

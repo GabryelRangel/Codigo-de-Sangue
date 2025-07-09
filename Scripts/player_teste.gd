@@ -357,16 +357,16 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 		"Escudo de Energia":
 			activate_shield(100)
 		
-		"Mais Dano":
+		"Sede de Sangue":
 			base_damage += 15
 			print("Upgrade: Mais Dano. Novo dano:", base_damage)
 		
-		"Mais Vida":
+		"Kit Médico":
 			max_health += 20
 			current_health += 20
 			emit_signal("health_changed", current_health, max_health)
 			print("Upgrade: Mais Vida")
-		"Sorte de Sobrevivente":
+		"Sorte de Principiante":
 			if player.bonus_drop_vida < 0.3:
 				player.bonus_drop_vida += 0.2
 				# Garante que o bônus não passe de 30%
@@ -376,31 +376,31 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 				# Se atingiu o máximo, remove o upgrade da lista
 				if player.bonus_drop_vida >= 0.3:
 					var tela_upgrade = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
-					tela_upgrade.all_upgrades.erase("Sorte de Sobrevivente")
+					tela_upgrade.all_upgrades.erase("Sorte de Principiante")
 				else:
 					print("Chance de drop de vida já está no máximo!")
 
-		"Fúria":
+		"Última Resistência":
 			tem_furia_upgrade = true
-			upgrade_menu.all_upgrades.erase("Fúria")
-		"Magnetismo Melhorado":
-			upgrade_menu.all_upgrades.erase("Magnetismo Melhorado")
+			upgrade_menu.all_upgrades.erase("Última resistência")
+		"Caminho da Ganância":
+			upgrade_menu.all_upgrades.erase("Caminho da Ganância")
 			if has_node("XpMagnet"):
 				var magnet = get_node("XpMagnet")
 				if magnet.has_node("CollisionShape2D"):
 					var shape = magnet.get_node("CollisionShape2D").shape
 					if shape is CircleShape2D:
 						shape.radius *= 1.5  # Aumenta 50% o raio
-		"Camuflagem Temporal":
+		"Capa Sorrateira":
 			tem_camuflagem_temporal = true
-			upgrade_menu.all_upgrades.erase("Camuflagem Temporal")
+			upgrade_menu.all_upgrades.erase("Capa Sorrateira")
 
-		"Redução de Cooldown":
+		"Instinto de Sobrevivência":
 			dash_cooldown *= 0.8  # Reduz o cooldown em 20%
-			upgrade_menu.all_upgrades.erase("Redução de Cooldown")
+			upgrade_menu.all_upgrades.erase("Instinto de Sobrevivência")
 			print("Upgrade único: Redução de Cooldown aplicado. Novo cooldown:", dash_cooldown)
 
-		"Mais XP":
+		"Pacote de Veterano":
 			xp_to_next_level = max(20, xp_to_next_level - 20)
 			print("Upgrade: Mais XP (xp_to_next_level agora é %d)" % xp_to_next_level)
 	upgrade_menu.hide()
