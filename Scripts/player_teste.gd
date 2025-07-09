@@ -294,6 +294,13 @@ func gain_xp(amount: int):
 	if current_xp >= xp_to_next_level:
 		level_up()
 
+func heal(amount: int):
+	current_health += amount
+	if current_health > max_health:
+		current_health = max_health
+	emit_signal("health_changed", current_health, max_health)
+
+
 func level_up():
 	current_xp -= xp_to_next_level
 	level += 1
@@ -314,13 +321,13 @@ func die():
 
 
 func _on_xp_magnet_area_entered(area: Area2D) -> void:
-	if area.is_in_group("xp_orb"):
+	if area.is_in_group("xp_orb") or area.is_in_group("hp_orb"):
 		area.start_attraction(self)
 
 
 func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 	match upgrade_name:
-		"Escudo Sangrento":
+		"Escudo de Energia":
 			activate_shield(100)
 		
 		"Mais Dano":

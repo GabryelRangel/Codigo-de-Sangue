@@ -34,6 +34,10 @@ func die():
 	var orb = xp_orb_scene.instantiate()
 	orb.global_position = global_position
 	get_parent().add_child(orb)
+	if randi() % 100 < 30:
+		var life_orb = preload("res://Scenes/hp.tscn").instantiate()
+		life_orb.global_position = global_position
+		get_parent().add_child(life_orb)
 	queue_free()
 
 # Função para colisão com o jogador

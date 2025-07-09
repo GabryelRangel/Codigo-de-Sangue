@@ -3,7 +3,7 @@ extends CanvasLayer
 signal upgrade_selected(upgrade_name: String)
 
 var all_upgrades := [
-	"Escudo Sangrento",
+	"Escudo de Energia",
 	"Mais Vida",
 	"Mais XP",
 	"Mais Dano",
