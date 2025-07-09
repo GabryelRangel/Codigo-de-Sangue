@@ -7,6 +7,11 @@ var all_upgrades := [
 	"Mais Vida",
 	"Mais XP",
 	"Mais Dano",
+	"Fúria",
+	"Magnetismo Melhorado",
+	"Redução de Cooldown",
+	"Camuflagem Temporal",
+	"Sorte de Sobrevivente"
 ]
 
 func _ready():

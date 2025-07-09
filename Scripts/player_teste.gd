@@ -26,6 +26,14 @@ var shield_hp := 0  # HP do powerup de escudo (0 = sem escudo)
 @onready var propulsor = $Propulsor  # o AnimatedSprite2D
 var acelerando := false
 var thruster_estado := "desligado" # Pode ser: "desligado", "ligando", "ativo"
+#Variaveis de powerup
+var max_bullet_pierce := 0  # Quantos inimigos as balas podem atravessar
+var bonus_drop_vida := 0.0  # Começa sem bônus
+var tem_furia_upgrade := false
+var tem_camuflagem_temporal := false
+var camuflagem_em_cooldown := false
+@export var duracao_camuflagem := 2.0
+@export var cooldown_camuflagem := 10.0
 
 var is_invincible: bool = false
 var bullet_path = preload("res://Scenes/bullet.tscn")
@@ -207,19 +215,27 @@ func player_movement(direction: Vector2, delta: float):
 
 func fire():
 	var bullet = bullet_path.instantiate()
-	bullet.damage = base_damage
+
+	var dano_final = base_damage
+	if tem_furia_upgrade and current_health <= max_health * 0.3:
+		dano_final *= 1.3  # +30% de dano
+
+	bullet.damage = dano_final
 	bullet.dir = rotation
 	bullet.global_position = $Node2D.global_position
 	bullet.is_enemy_bullet = false
 	bullet.add_to_group("player_bullet")
 	bullet.configurar_colisao(3, 2)
-
+	if "pierce" in bullet:
+		bullet.pierce = max_bullet_pierce
+		
 	# Adiciona a herança de velocidade da nave
 	if "velocity_inherited" in bullet:
 		bullet.velocity_inherited = velocity
 
 	get_parent().add_child(bullet)
 	$AudioStreamPlayer2D.play()
+
 	
 func _on_Hurtbox_area_entered(body):#Ativa quando o player é atingido por balas inimigas
 	if is_invincible:
@@ -274,6 +290,10 @@ func take_damage(amount: int):
 		return  # Dano absorvido pelo escudo, não tira vida
 
 	if amount > 0:
+		if tem_camuflagem_temporal and not camuflagem_em_cooldown:
+			camuflagem_em_cooldown = true
+			ativar_camuflagem_temporal()
+
 		current_health -= amount
 		current_health = max(current_health, 0)
 		print("Player tomou dano! Vida restante:", current_health)
@@ -326,7 +346,14 @@ func _on_xp_magnet_area_entered(area: Area2D) -> void:
 
 
 func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
+	var player = Global.player
+	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
 	match upgrade_name:
+		"Balas Perfurantes":
+			player.max_bullet_pierce = 2
+			upgrade_menu.all_upgrades.erase("Balas Perfurantes")
+			print("Upgrade único: Balas Perfurantes ativado (atravessa até 2 inimigos).")
+
 		"Escudo de Energia":
 			activate_shield(100)
 		
@@ -339,11 +366,43 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 			current_health += 20
 			emit_signal("health_changed", current_health, max_health)
 			print("Upgrade: Mais Vida")
-		
+		"Sorte de Sobrevivente":
+			if player.bonus_drop_vida < 0.3:
+				player.bonus_drop_vida += 0.2
+				# Garante que o bônus não passe de 30%
+				if player.bonus_drop_vida > 0.3:
+					player.bonus_drop_vida = 0.3
+				print("Upgrade: Sorte de Sobrevivente. Chance de drop aumentada para %.0f%%" % (player.bonus_drop_vida * 100.0))
+				# Se atingiu o máximo, remove o upgrade da lista
+				if player.bonus_drop_vida >= 0.3:
+					var tela_upgrade = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
+					tela_upgrade.all_upgrades.erase("Sorte de Sobrevivente")
+				else:
+					print("Chance de drop de vida já está no máximo!")
+
+		"Fúria":
+			tem_furia_upgrade = true
+			upgrade_menu.all_upgrades.erase("Fúria")
+		"Magnetismo Melhorado":
+			upgrade_menu.all_upgrades.erase("Magnetismo Melhorado")
+			if has_node("XpMagnet"):
+				var magnet = get_node("XpMagnet")
+				if magnet.has_node("CollisionShape2D"):
+					var shape = magnet.get_node("CollisionShape2D").shape
+					if shape is CircleShape2D:
+						shape.radius *= 1.5  # Aumenta 50% o raio
+		"Camuflagem Temporal":
+			tem_camuflagem_temporal = true
+			upgrade_menu.all_upgrades.erase("Camuflagem Temporal")
+
+		"Redução de Cooldown":
+			dash_cooldown *= 0.8  # Reduz o cooldown em 20%
+			upgrade_menu.all_upgrades.erase("Redução de Cooldown")
+			print("Upgrade único: Redução de Cooldown aplicado. Novo cooldown:", dash_cooldown)
+
 		"Mais XP":
 			xp_to_next_level = max(20, xp_to_next_level - 20)
 			print("Upgrade: Mais XP (xp_to_next_level agora é %d)" % xp_to_next_level)
-	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
 	upgrade_menu.hide()
 	get_tree().paused = false
 
@@ -426,3 +485,18 @@ func check_collision_damage():
 			
 			# Reduz velocidade após colisão para simular impacto
 			velocity = velocity * 0.3  # Reduz velocidade para 30% após colisão
+			
+func ativar_camuflagem_temporal():
+	print("Camuflagem Temporal ativada!")
+	modulate.a = 0.2  # Deixa quase invisível
+	is_invincible = true
+
+	await get_tree().create_timer(duracao_camuflagem).timeout
+
+	modulate.a = 1.0  # Restaura visibilidade
+	is_invincible = false
+	print("Camuflagem Temporal encerrada.")
+
+	await get_tree().create_timer(cooldown_camuflagem).timeout
+	camuflagem_em_cooldown = false
+	print("Camuflagem pronta para uso novamente.")

@@ -1,4 +1,5 @@
 extends Area2D
+var pierce := 0  # Quantos inimigos pode atravessar
 @export var damage: int = 25
 @export var speed: float = 1500
 var dir: float
@@ -35,7 +36,10 @@ func _on_area_entered(area: Area2D):
 	elif not is_enemy_bullet and area.is_in_group("enemy"):
 		if parent.has_method("take_damage"):
 			parent.take_damage(damage)
-		queue_free()
+		pierce -= 1
+		if pierce < 0:
+			queue_free()
+
 
 func configurar_cor(cor: Color):
 	$projectile.modulate = cor
