@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvy10gcf5240u"]
+
+[ext_resource type="Texture2D" uid="uid://blpasid1dv2wj" path="res://Assets/2seta.png" id="1_o5j5i"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 1.25)
+scale = Vector2(0.3, 0.302)
+texture = ExtResource("1_o5j5i")
