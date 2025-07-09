@@ -55,12 +55,14 @@ func update_enemy_arrows():
 		if enemy == null or not is_instance_valid(enemy):
 			continue  # Pula inimigos destruídos
 
+		var arrow
 		if not enemy_arrows.has(enemy):
-			var arrow = arrow_scene.instantiate()
+			arrow = arrow_scene.instantiate()
 			add_child(arrow)
 			enemy_arrows[enemy] = arrow
+		else:
+			arrow = enemy_arrows[enemy]
 
-		var arrow = enemy_arrows[enemy]
 		var screen_center = viewport.size / 2
 		var screen_pos = screen_center + (enemy.global_position - camera.global_position)
 
