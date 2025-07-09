@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://bedl0me03x388"]
+
+[ext_resource type="Texture2D" uid="uid://cbqg3gtfkp6db" path="res://Assets/explosion2.png" id="1_cistx"]
+[ext_resource type="Script" uid="uid://cb78xit3i82st" path="res://Scripts/explosion_2.gd" id="1_q58a7"]
+[ext_resource type="AudioStream" uid="uid://8pxco2jyq61d" path="res://audio/effects/explosaoArcade.wav" id="2_kxy3c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n5oh"]
+atlas = ExtResource("1_cistx")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0usn4"]
+atlas = ExtResource("1_cistx")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fa38k"]
+atlas = ExtResource("1_cistx")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24jlj"]
+atlas = ExtResource("1_cistx")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gvey"]
+atlas = ExtResource("1_cistx")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kye3p"]
+atlas = ExtResource("1_cistx")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sdlq"]
+atlas = ExtResource("1_cistx")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1xge"]
+atlas = ExtResource("1_cistx")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vo6u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n5oh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0usn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fa38k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24jlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gvey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kye3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sdlq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1xge")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_q58a7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, 1)
+scale = Vector2(1.9375, 1.8125)
+sprite_frames = SubResource("SpriteFrames_6vo6u")
+frame = 7
+frame_progress = 1.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-3, -1)
+stream = ExtResource("2_kxy3c")
+autoplay = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

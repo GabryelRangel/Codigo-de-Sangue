@@ -3,7 +3,8 @@ extends Area2D
 var explosion_scene = preload("res://Scenes/Explosion.tscn")
 @export var speed: float = 400.0
 @export var damage: int = 25
-@export var turn_speed: float = 3.0  # maior = curva mais rápida
+@export var turn_speed: float = 3.0
+@export var explosion_radius: float = 100.0  # Novo: raio da explosão em caso de timeout
 var target: Node2D
 
 func configurar_colisao(layer: int, mask: int):
@@ -19,26 +20,36 @@ func _process(delta):
 	if not is_instance_valid(target):
 		queue_free()
 		return
+
 	var to_target = (target.global_position - global_position).normalized()
 	var current_direction = Vector2.RIGHT.rotated(rotation)
 	var new_direction = current_direction.lerp(to_target, turn_speed * delta).normalized()
 	rotation = new_direction.angle()
 	position += new_direction * speed * delta
 
-func _on_timer_timeout():
-	queue_free()
-
-
 func _on_area_entered(area: Area2D) -> void:
 	if area.name == "Hurtbox":
-		print("Hurtbox atingido!")
 		var player = area.get_parent()
 		if player.has_method("take_damage"):
-			player.take_damage(20)
+			player.take_damage(damage)
 
-		# Instancia explosão igual ao inimigo 3
-		var explosion = explosion_scene.instantiate()
-		explosion.global_position = global_position
-		get_tree().get_current_scene().add_child(explosion)
-
+		explodir()
 		queue_free()
+
+func _on_timer_timeout():
+	print("Tempo acabou: bala vai explodir")
+	explodir()
+	queue_free()
+
+func explodir():
+	var explosion = explosion_scene.instantiate()
+	explosion.global_position = global_position
+	get_tree().get_current_scene().add_child(explosion)
+
+	# Verifica se o player está dentro do raio de explosão
+	if is_instance_valid(target):
+		var distancia = target.global_position.distance_to(global_position)
+		if distancia <= explosion_radius:
+			print("Player atingido pela explosão!")
+			if target.has_method("take_damage"):
+				target.take_damage(damage)

@@ -1,5 +1,5 @@
 extends Node2D
-var explosion_scene = preload("res://Scenes/Explosion.tscn")
+var explosion_scene = preload("res://Scenes/explosion2.tscn")
 @export var speed: float = 400.0
 @export var damage: int = 30
 @export var max_health: int = 100

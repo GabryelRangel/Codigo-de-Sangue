@@ -1,6 +1,7 @@
 extends Node2D
 var xp_orb_scene = preload("res://Scenes/xp.tscn")
 @export var speed: float = 300.0
+var on_screen := false
 @export var bala_curva_scene: PackedScene
 @export var fire_interval: float = 1.5
 @export var max_health: int = 100
@@ -43,6 +44,8 @@ func _on_timer_timeout():
 	shoot()
 
 func shoot():
+	if not on_screen:
+		return  # Não atira se estiver fora da tela
 	if bala_curva_scene and is_instance_valid(player):
 		var bullet = bala_curva_scene.instantiate()
 		
@@ -78,3 +81,10 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		print("Bala do player detectada!")
 		take_damage(bullet_node.damage)
 		bullet_node.queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+	on_screen = true
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	on_screen = false
