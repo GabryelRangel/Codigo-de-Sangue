@@ -55,7 +55,7 @@ script = ExtResource("1_hqjsl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_826j4")
-frame_progress = 0.512419
+frame_progress = 0.948032
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lt7up")
