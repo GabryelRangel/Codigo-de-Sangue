@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dsk50xsf7e5bd" path="res://Scenes/Pause_menu.tscn" id="12_rku1e"]
 [ext_resource type="PackedScene" uid="uid://cf23510q5u7mm" path="res://Scenes/upgrade_menu.tscn" id="13_rfjv2"]
 [ext_resource type="Script" uid="uid://cd3kwhmakxltw" path="res://Scripts/game_over.gd" id="15_nb51f"]
-[ext_resource type="AudioStream" uid="uid://d0qalf1myjhq1" path="res://audio/music/Codigo de Sangue Combate.wav" id="15_nnt18"]
+[ext_resource type="AudioStream" uid="uid://cnvujev0aah2f" path="res://audio/music/Codigo de Sangue Combate.wav" id="15_nnt18"]
 [ext_resource type="Script" uid="uid://dicmxrkg7i7kr" path="res://Scripts/victory.gd" id="17_85qyi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgsr"]
