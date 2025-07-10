@@ -1,9 +1,10 @@
-[gd_scene load_steps=2511 format=3 uid="uid://c2l6oofpudd5j"]
+[gd_scene load_steps=2512 format=3 uid="uid://c2l6oofpudd5j"]
 
 [ext_resource type="Script" uid="uid://djoutwwbdb3tb" path="res://Scripts/main_menu.gd" id="1_00u4r"]
 [ext_resource type="Texture2D" uid="uid://bltjfd2nehitc" path="res://Assets/Fundo/Space Background (19).png" id="1_b7rmo"]
 [ext_resource type="Texture2D" uid="uid://cmv1edk7hphth" path="res://Assets/Fundo/3568020675 (1).png" id="1_c4tk2"]
 [ext_resource type="FontFile" uid="uid://c76xk245aqk7" path="res://Assets/Fonts/RasterForgeRegular-JpBgm.ttf" id="3_00u4r"]
+[ext_resource type="AudioStream" uid="uid://my0vpxe4pc5q" path="res://Audio/music/Codigo de Sangue Menu v1.wav" id="5_anlgx"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_anlgx"]
 texture = ExtResource("1_b7rmo")
@@ -17651,6 +17652,10 @@ text = "Codigo de Sangue
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_anlgx")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

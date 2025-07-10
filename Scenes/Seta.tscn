@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bvy10gcf5240u"]
 
-[ext_resource type="Texture2D" uid="uid://6gbkkoav3kfs" path="res://Assets/pointer_scifi_b.png" id="1_o5j5i"]
+[ext_resource type="Texture2D" uid="uid://byet3uu07ijh" path="res://Assets/pointer_scifi_b.png" id="1_o5j5i"]
 
 [node name="Node2D" type="Node2D"]
 

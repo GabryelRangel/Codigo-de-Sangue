@@ -1,15 +1,61 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnmib5nlodsej"]
+[gd_scene load_steps=10 format=3 uid="uid://cnmib5nlodsej"]
 
 [ext_resource type="Script" uid="uid://de57w3ixfridu" path="res://Scripts/inimigo_5.gd" id="1_uxp6x"]
+[ext_resource type="Texture2D" uid="uid://ml31haipyygs" path="res://Assets/Ships/choque-nave-.png" id="2_6mupu"]
 [ext_resource type="Texture2D" uid="uid://b8vao7gpc4qs4" path="res://Assets/tiny_ship20.png" id="2_usxmg"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iehl"]
+atlas = ExtResource("2_6mupu")
+region = Rect2(0, 0, 27, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mi7ar"]
+atlas = ExtResource("2_6mupu")
+region = Rect2(28, 0, 27, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8bbr"]
+atlas = ExtResource("2_6mupu")
+region = Rect2(56, 0, 27, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sidg2"]
+atlas = ExtResource("2_6mupu")
+region = Rect2(84, 0, 27, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3r5li"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6iehl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mi7ar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8bbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sidg2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8cry4"]
-size = Vector2(72, 92)
+size = Vector2(58, 55)
 
 [node name="inimigo5" type="Node2D" groups=["enemy"]]
 script = ExtResource("1_uxp6x")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9.53674e-07, -0.999998)
+rotation = 1.5708
+scale = Vector2(1.73276, 1.73276)
+sprite_frames = SubResource("SpriteFrames_3r5li")
+autoplay = "default"
+frame_progress = 0.562758
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 rotation = 1.5708
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_usxmg")
@@ -19,16 +65,16 @@ collision_layer = 2
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -1)
+position = Vector2(-1, -1)
 shape = SubResource("RectangleShape2D_8cry4")
 
 [node name="cooldown_timer" type="Timer" parent="."]
 
 [node name="spawn_bala_1" type="Marker2D" parent="."]
-position = Vector2(38, 15)
+position = Vector2(30, 17)
 
 [node name="spawn_bala_2" type="Marker2D" parent="."]
-position = Vector2(38, -14)
+position = Vector2(30, -6)
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="cooldown_timer" to="." method="_on_cooldown_timer_timeout"]

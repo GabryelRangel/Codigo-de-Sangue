@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bm8umibt7ff3y" path="res://Scripts/inimigo_1.gd" id="1_4fmjp"]
 [ext_resource type="PackedScene" uid="uid://c0wel8ei7f15c" path="res://Scenes/bullet.tscn" id="2_rv34c"]
-[ext_resource type="Texture2D" uid="uid://b1domdpickhkx" path="res://Assets/Ships/mao-nave.png" id="3_kmkia"]
+[ext_resource type="Texture2D" uid="uid://bnfc8dbyv6nx2" path="res://Assets/Ships/mao-nave-2.png" id="3_kmkia"]
 [ext_resource type="Script" uid="uid://pxtphnhs7esh" path="res://Scripts/state_machine.gd" id="4_kmkia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmjp"]
