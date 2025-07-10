@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://audio/effects/teste.mp3" id="3_mlrf6"]
 [ext_resource type="Texture2D" uid="uid://eww8mj14veq" path="res://Assets/Ships/Foguete/Propulsor-2.png" id="3_no3mc"]
 [ext_resource type="Texture2D" uid="uid://0eedu82j78th" path="res://Assets/Ships/Foguete/Propulsor.png" id="4_t2snl"]
+[ext_resource type="AudioStream" uid="uid://chqf7cvhxtlhc" path="res://Audio/effects/tiro-som.wav" id="5_no3mc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ekch"]
 atlas = ExtResource("3_no3mc")
@@ -109,7 +110,7 @@ visible = false
 position = Vector2(-27.6, 1.17776e-06)
 rotation = -1.57079
 sprite_frames = SubResource("SpriteFrames_4wxe7")
-animation = &"ligando"
+animation = &"ativo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5.96046e-08, -6.82121e-13)

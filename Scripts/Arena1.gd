@@ -23,6 +23,7 @@ func _ready():
 	var tween = create_tween()
 	tween.tween_property(music_player, "volume_db", 0, fade_in_time)
 	start_wave()
+	$AudioStreamPlayer.connect("finished", Callable(self, "_on_music_finished"))
 
 func start_wave():
 	var hud = get_tree().get_current_scene().get_node("hud")
@@ -82,3 +83,6 @@ func _on_spawner_inimigo_timeout() -> void:
 
 func _on_wave_delay_timer_timeout():
 	start_wave()
+
+func _on_music_finished():
+	$AudioStreamPlayer.play()
