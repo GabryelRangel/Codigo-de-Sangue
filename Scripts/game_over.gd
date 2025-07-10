@@ -9,5 +9,4 @@ func show_game_over():
 	visible = true
 
 func restart_game():
-	Global.score = 0
 	get_tree().reload_current_scene()

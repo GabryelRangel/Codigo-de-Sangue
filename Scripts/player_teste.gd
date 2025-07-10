@@ -325,20 +325,19 @@ func level_up():
 	current_xp -= xp_to_next_level
 	level += 1
 	xp_to_next_level += 50
+	# Aumenta vida máxima e cura totalmente
+	max_health += 10
+	# Aumenta dano base
+	base_damage += 5
 	print("Subiu para o nível ", level)
 	get_tree().paused = true
 	var upgrade_menu = get_tree().get_current_scene().get_node("hud/TelaUpgrade")
 	upgrade_menu.mostrar_opcoes_upgrade()
 
-
 func die():
 	var hud = get_tree().get_current_scene().get_node("hud")
-	if Global.score >= 30:
-		hud.get_node("Victory").show_victory()
-	else:
-		hud.get_node("GameOver").show_game_over()
+	hud.get_node("GameOver").show_game_over()
 	queue_free()
-
 
 func _on_xp_magnet_area_entered(area: Area2D) -> void:
 	if area.is_in_group("xp_orb") or area.is_in_group("hp_orb"):
@@ -357,15 +356,6 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 		"Escudo de Energia":
 			activate_shield(100)
 		
-		"Sede de Sangue":
-			base_damage += 15
-			print("Upgrade: Mais Dano. Novo dano:", base_damage)
-		
-		"Kit Médico":
-			max_health += 20
-			current_health += 20
-			emit_signal("health_changed", current_health, max_health)
-			print("Upgrade: Mais Vida")
 		"Sorte de Principiante":
 			if player.bonus_drop_vida < 0.3:
 				player.bonus_drop_vida += 0.2
@@ -380,9 +370,9 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 				else:
 					print("Chance de drop de vida já está no máximo!")
 
-		"Última Resistência":
+		"Resistência Final":
 			tem_furia_upgrade = true
-			upgrade_menu.all_upgrades.erase("Última resistência")
+			upgrade_menu.all_upgrades.erase("Resistência Final")
 		"Caminho da Ganância":
 			upgrade_menu.all_upgrades.erase("Caminho da Ganância")
 			if has_node("XpMagnet"):
@@ -399,10 +389,6 @@ func _on_tela_upgrade_upgrade_selected(upgrade_name: Variant) -> void:
 			dash_cooldown *= 0.8  # Reduz o cooldown em 20%
 			upgrade_menu.all_upgrades.erase("Instinto de Sobrevivência")
 			print("Upgrade único: Redução de Cooldown aplicado. Novo cooldown:", dash_cooldown)
-
-		"Pacote de Veterano":
-			xp_to_next_level = max(20, xp_to_next_level - 20)
-			print("Upgrade: Mais XP (xp_to_next_level agora é %d)" % xp_to_next_level)
 	upgrade_menu.hide()
 	get_tree().paused = false
 
@@ -446,9 +432,7 @@ func _on_propulsor_animation_finished():
 		stop_thruster()
 #Upgrades abaixo
 func activate_shield(amount: int):
-	print("Escudo")
 	if not has_node("VisualEscudo"):
-		print("Escudo 2")
 		var escudo = preload("res://Scenes/PowerUps/VisualEscudo.tscn").instantiate()
 		escudo.name = "VisualEscudo"
 		add_child(escudo)
@@ -487,7 +471,6 @@ func check_collision_damage():
 			velocity = velocity * 0.3  # Reduz velocidade para 30% após colisão
 			
 func ativar_camuflagem_temporal():
-	print("Camuflagem Temporal ativada!")
 	modulate.a = 0.2  # Deixa quase invisível
 	is_invincible = true
 
@@ -495,7 +478,6 @@ func ativar_camuflagem_temporal():
 
 	modulate.a = 1.0  # Restaura visibilidade
 	is_invincible = false
-	print("Camuflagem Temporal encerrada.")
 
 	await get_tree().create_timer(cooldown_camuflagem).timeout
 	camuflagem_em_cooldown = false
