@@ -145,7 +145,7 @@ offset_bottom = -119.0
 theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
 
-[node name="Score" type="Label" parent="hud"]
+[node name="Wave" type="Label" parent="hud"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -153,6 +153,7 @@ offset_left = -30.0
 offset_right = 30.0
 offset_bottom = 23.0
 grow_horizontal = 2
+scale = Vector2(2, 2)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 2
@@ -212,6 +213,7 @@ text = "Jogar novamente"
 [node name="HealthBar" parent="hud" instance=ExtResource("12_rfjv2")]
 
 [node name="TelaUpgrade" parent="hud" instance=ExtResource("13_rfjv2")]
+visible = false
 
 [node name="Spawner_Inimigo" type="Timer" parent="."]
 wait_time = 4.0
@@ -220,6 +222,13 @@ autostart = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_nnt18")
 
+[node name="WaveDelayTimer" type="Timer" parent="."]
+one_shot = true
+
+
+
+
 [connection signal="pressed" from="hud/Victory/RestartButton" to="hud" method="_on_restart_button_pressed"]
 [connection signal="upgrade_selected" from="hud/TelaUpgrade" to="Player" method="_on_tela_upgrade_upgrade_selected"]
 [connection signal="timeout" from="Spawner_Inimigo" to="." method="_on_spawner_inimigo_timeout"]
+[connection signal="timeout" from="WaveDelayTimer" to="." method="_on_wave_delay_timer_timeout"]

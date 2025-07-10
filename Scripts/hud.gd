@@ -2,19 +2,18 @@ extends CanvasLayer
 @onready var arrow_scene = preload("res://Scenes/Seta.tscn")
 var enemy_arrows = {}  # Dicionário: inimigo -> seta
 var arrows_enabled := true
-@onready var score_label = $Score
+@onready var wave_label = $Wave
 @onready var victory_screen = $Victory
 @onready var health_bar = $HealthBar/HealthBar
 
-func update_score_label():
-	$Score.text = "Placar: " + str(Global.score)
+func update_wave(wave: int):
+	$Wave.text = "Wave " + str(wave)
 
 func show_victory_screen():
 	$Victory.visible = true
 	get_tree().paused = true
 
 func _process(_delta):
-	$Score.text = "Pontuação:\n%d" % Global.score
 	if Input.is_action_just_pressed("ui_ctrl"):
 		arrows_enabled = !arrows_enabled
 		for arrow in enemy_arrows.values():
@@ -30,9 +29,12 @@ func _ready():
 
 func _on_restart_button_pressed() -> void:
 	print("Botão Tentar Novamente pressionado!")
-	Global.score = 0
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/game.tscn")	
+	call_deferred("_recarregar_cena")
+
+func _recarregar_cena():
+	get_tree().change_scene_to_file("res://Scenes/game.tscn")
+
 var health_tween: Tween = null
 func _on_player_health_changed(current: int, max_health: int) -> void:
 	health_bar.max_value = max_health

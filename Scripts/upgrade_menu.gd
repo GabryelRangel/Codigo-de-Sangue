@@ -4,10 +4,7 @@ signal upgrade_selected(upgrade_name: String)
 
 var all_upgrades := [
 	"Escudo de Energia",
-	"Kit Médico",
-	"Pacote de Veterano",
-	"Sede de Sangue",
-	"Última resistência",
+	"Resistência Final",
 	"Caminho da Ganância",
 	"Instinto de Sobrevivência",
 	"Capa Sorrateira",
@@ -17,10 +14,7 @@ var all_upgrades := [
 
 var upgrade_descricoes := {
 	"Escudo de Energia": "Cria um escudo envolta de SH4RK que absorve até 100 de dano.",
-	"Kit Médico": "Aumenta sua vida máxima em 20 HP e recupera vida.",
-	"Pacote de Veterano": "Ganha 20% mais experiência.",
-	"Sede de Sangue": "Aumenta o dano das suas armas em 25%.",
-	"Última Resistência": "Aumenta o dano em 30% quando o SH4RK está com a vida baixa.",
+	"Resistência Final": "Aumenta o dano em 30% quando o SH4RK está com a vida baixa.",
 	"Caminho da Ganância": "Aumenta o alcance de coleta de orbes de XP e HP.",
 	"Instinto de Sobrevivência": "Reduz o tempo de recarga do dash em 20%.",
 	"Capa Sorrateira": "Fica invisível e invencível por 2s ao tomar dano.",
