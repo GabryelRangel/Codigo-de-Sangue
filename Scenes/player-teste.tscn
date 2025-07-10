@@ -109,7 +109,7 @@ visible = false
 position = Vector2(-27.6, 1.17776e-06)
 rotation = -1.57079
 sprite_frames = SubResource("SpriteFrames_4wxe7")
-animation = &"ligando"
+animation = &"ativo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5.96046e-08, -6.82121e-13)
