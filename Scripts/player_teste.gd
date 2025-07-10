@@ -63,7 +63,7 @@ var damage_flash_timer: float = 0.0
 var is_damage_flashing: bool = false
 
 func _ready():
-	var cursor_image = load("res://Assets/cursor_1.png")
+	var cursor_image = load("res://Assets/cursor_3.png")
 	Input.set_custom_mouse_cursor(cursor_image)
 	Global.player = self
 	$Hurtbox.connect("area_entered", Callable(self, "_on_Hurtbox_area_entered"))
