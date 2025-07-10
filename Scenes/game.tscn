@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://cmnwa5qvdh4iu" path="res://Scenes/player-teste.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://ddkl4s77ocfrx" path="res://Scripts/Arena1.gd" id="1_nnt18"]
 [ext_resource type="Texture2D" uid="uid://bq1qf3m7pxy5o" path="res://Assets/Fundo/Space Background (15).png" id="1_wowpa"]
-[ext_resource type="Texture2D" uid="uid://c56cga3s5yevj" path="res://Assets/Fundo/Space Background (16).png" id="2_h4fw4"]
-[ext_resource type="Texture2D" uid="uid://b0h45h2xpl5d8" path="res://Assets/Space Background (21).png" id="4_1phco"]
+[ext_resource type="Texture2D" uid="uid://d3us4tbb63av2" path="res://Assets/Fundo/Sangue-Fundo.png" id="4_nb51f"]
 [ext_resource type="Texture2D" uid="uid://dcnpuwu756t55" path="res://Assets/Space Background (14).png" id="5_h4fw4"]
 [ext_resource type="Texture2D" uid="uid://erruw65mhmk0" path="res://Assets/Fundo/Space Background (17).png" id="5_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://bsqq425g5heic" path="res://Assets/Fundo/fundo-Carne.png" id="6_nnt18"]
 [ext_resource type="Script" uid="uid://da7r1ftc0bj84" path="res://Scripts/hud.gd" id="11_1phco"]
 [ext_resource type="FontFile" uid="uid://b243ui7ym32qo" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="11_nb51f"]
 [ext_resource type="PackedScene" uid="uid://072mxoyxvowx" path="res://Scenes/HealthBar.tscn" id="12_rfjv2"]
@@ -46,7 +46,7 @@ motion_scale = Vector2(0.1, 0.1)
 motion_mirroring = Vector2(1200, 1200)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
-texture = ExtResource("4_1phco")
+texture = ExtResource("4_nb51f")
 centered = false
 
 [node name="ParallaxLayer7" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -61,7 +61,7 @@ centered = false
 scale = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
-texture = ExtResource("2_h4fw4")
+texture = ExtResource("6_nnt18")
 
 [node name="Player" parent="." instance=ExtResource("1_ebmjs")]
 position = Vector2(141, 325)
