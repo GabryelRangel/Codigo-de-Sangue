@@ -2,7 +2,7 @@ extends Control
 
 func _ready():
 	visible = false
-	$Button.text = "Tentar novamente"
+	$Button.text = "Try again"
 	$Button.pressed.connect(restart_game)
 
 func show_game_over():

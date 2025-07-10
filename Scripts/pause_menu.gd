@@ -43,6 +43,5 @@ func _on_quit_pressed():
 
 func _on_restart_pressed() -> void:
 	if can_toggle:
-		Global.score = 0
 		resume()
 		get_tree().reload_current_scene()

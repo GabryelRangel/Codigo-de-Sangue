@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dird5t3iygpoo" path="res://Scripts/player_teste.gd" id="1_mlrf6"]
 [ext_resource type="Texture2D" uid="uid://s0sjqi0rc766" path="res://Assets/Ships/Sh4rk.png" id="2_mlrf6"]
-[ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://Audio/effects/teste.mp3" id="3_mlrf6"]
+[ext_resource type="AudioStream" uid="uid://cdat61efo5tpv" path="res://audio/effects/teste.mp3" id="3_mlrf6"]
 [ext_resource type="Texture2D" uid="uid://eww8mj14veq" path="res://Assets/Ships/Foguete/Propulsor-2.png" id="3_no3mc"]
 [ext_resource type="Texture2D" uid="uid://0eedu82j78th" path="res://Assets/Ships/Foguete/Propulsor.png" id="4_t2snl"]
 
@@ -123,6 +123,7 @@ scale = Vector2(-1.28245, 3.6704)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_mlrf6")
+volume_db = -18.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_left = -2700
