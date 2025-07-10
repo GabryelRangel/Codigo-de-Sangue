@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bw5emb7xjwmy3" path="res://Scripts/inimigo_4.gd" id="1_agxo5"]
 [ext_resource type="PackedScene" uid="uid://dms5ihp6vh1ag" path="res://Scenes/laser.tscn" id="2_8ctau"]
-[ext_resource type="Texture2D" uid="uid://cmai2n523dt3e" path="res://Assets/Ships/eye-ship.png" id="3_dpb01"]
+[ext_resource type="Texture2D" uid="uid://0ylscxme75d0" path="res://Assets/Ships/eye-ship-2.png" id="3_dpb01"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_54qbd"]
 radius = 17.1577

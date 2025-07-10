@@ -1,4 +1,9 @@
 extends Node2D
+extends Node2D
+
+@onready var music_player = $AudioStreamPlayer
+var fade_in_time := 2.0  # segundos para o fade in
+var delay := 1.5         # segundos de atraso antes de começar
 
 var enemy_1 = preload("res://Scenes/inimigo_1.tscn")
 var enemy_2 = preload("res://Scenes/inimigo_2.tscn")
@@ -12,8 +17,13 @@ var enemies_remaining := 0
 @onready var spawner = $Spawner_Inimigo  # Ajuste se o nome for diferente
 
 func _ready():
-	Global.node_creation_parent = self
-	start_wave()
+    Global.node_creation_parent = self
+    music_player.volume_db = -80  # começa silencioso
+    await get_tree().create_timer(delay).timeout
+    music_player.play()
+    var tween = create_tween()
+    tween.tween_property(music_player, "volume_db", 0, fade_in_time)
+    start_wave()
 
 func start_wave():
 	var hud = get_tree().get_current_scene().get_node("hud")
